@@ -10,7 +10,6 @@ GAME.scroll = function (){
     this.startTime;
     this.isTweening = false;
     // this.startLocation = 0;
-    this.lineStatus = 'lineA_pre';
 
     this.changeLocation = function (index){
         var locationObj = GAME.locationList[index];
@@ -22,14 +21,6 @@ GAME.scroll = function (){
         this.target = locationObj.target;
         this.offset = locationObj.offset;
     }
-
-    // var locationObj = GAME.config.locationList[0];
-    //
-    // this.startLocation = locationObj.start;
-    // this.endLocation = locationObj.end;
-    // this.prevIndex = locationObj.prev;
-    // this.nextIndex = locationObj.next;
-    // this.target = locationObj.target;
 
     this.changeLocation(0);  //初始化位置
 

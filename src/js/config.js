@@ -24,6 +24,10 @@ GAME.config = {
         './src/img/comet.png',
         './src/img/earth.png',
         './src/img/boom.png',
+        './src/img/text1.png',
+        './src/img/text3_1.png',
+        './src/img/text3_2.png',
+        './src/img/text3_3.png',
     ],
 
 }
