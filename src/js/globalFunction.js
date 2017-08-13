@@ -24,21 +24,19 @@ Global.setElementsToStage = function (name,elements){
     this.stage[name] = elements;
 }
 
-setDefaultValue = function (target,width,height,x,y,scale,alpha){
+setDefaultValue = function (target,width,height,x,y,scale,anchor,alpha){
     target.width = width;
     target.height = height;
     target.position.x = x;
     target.position.y = y;
 
     if(scale){
-        target.scale.x = scale;
-        target.scale.y = scale;
+        target.scale.set(scale);
+    }
+    if(anchor){
+        target.anchor.set(anchor);
     }
     if(alpha){
         target.alpha = alpha;
     }
-}
-
-setTimeLine = function (start,end,callback){
-    // if()
 }

@@ -4,15 +4,12 @@ GAME.width = 640;
 GAME.height = window.innerHeight * 640 / window.innerWidth;
 GAME.ratio = 640 / window.innerWidth;
 
-var lineA = {process:0},lineLoader = {process:0},lineB = 0,lineC = 0;
-
 GAME.line = {
     lineA:0,
     lineLoader:0,
     lineB:0,
     lineC:0,
 }
-
 
 
 GAME.config = {
@@ -25,6 +22,8 @@ GAME.config = {
         './src/img/loader-inner.png',
         './src/img/loader-text.png',
         './src/img/comet.png',
+        './src/img/earth.png',
+        './src/img/boom.png',
     ],
 
 }

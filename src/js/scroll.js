@@ -76,7 +76,7 @@ GAME.scroll = function (){
 
             if(duration < 300){
                 var distance = event.changedTouches[0].pageY-self.startDest,
-                    speed = Math.abs(distance) / duration;
+                    speed = Math.min(.8,Math.abs(distance) / duration);
 
                 destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
                 self._scrollTo(destination,speed / deceleration,GAME.scroll.ease.circular.fn);

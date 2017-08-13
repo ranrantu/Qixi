@@ -37,15 +37,17 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.smallStarBTexture = new PIXI.Texture.fromImage('./src/img/small-star2.png');
     this.smallStarB = new PIXI.Sprite.fromImage('./src/img/small-star2.png');
     setDefaultValue(this.smallStarB,53,53,100,200);
-
+    //星球碰撞部分
+    this.cometEarthShaking = false;
     this.comet = new PIXI.Sprite.fromImage('./src/img/comet.png');
-    setDefaultValue(this.comet,416,204,204,1035,0.5);
+    setDefaultValue(this.comet,416,204,344,900,0.4,.5);
 
     this.earth = new PIXI.Sprite.fromImage('./src/img/earth.png');
-    setDefaultValue(this.earth,361,254,302,1243);
+    setDefaultValue(this.earth,361,254,500,1400,null,.5);
 
+    this.boomBlinking = false;
     this.boom = new PIXI.Sprite.fromImage('./src/img/boom.png');
-    setDefaultValue(this.boom,266,206,244,1135);
+    setDefaultValue(this.boom,266,206,330,1230,null,.5);
 
     this.loader = new PIXI.Sprite.fromImage('./src/img/loader.png');
     setDefaultValue(this.loader,597,74,25,1955);
@@ -79,12 +81,14 @@ GAME.sceneA.prototype.createSceneA = function (){
 
     this.count = 0;
     this.bgScale = true;
+    this.cometEarthCount = 0;
+    this.booomCount = 0;
 }
 
 GAME.sceneA.prototype.moving = function (){
+
     if(this.bgScale){
         this.count += 0.01;
-
         this.bgPic.scale.x = 1.05 + 0.05*Math.sin(this.count);
         this.bgPic.scale.y = 1.01 + 0.01*Math.cos(this.count);
         this.planetTop.scale.x = 1.1 + 0.1*Math.cos(this.count);
@@ -95,21 +99,68 @@ GAME.sceneA.prototype.moving = function (){
         this.starmapB.alpha = 0.7+0.3*Math.cos(this.count*5);
     }
 
+    this.otherAction();
+
+    var la = GAME.line.lineA;
+
     //lineA时间轴
-    if(GAME.line.lineA<=0 && GAME.line.lineA>=-1500){
+    if(la<=0 && la>=-1500){
         this.bgScale = true;
-        this.background.position.y = GAME.line.lineA;
+        this.background.position.y = la;
         this.loaderInner.width = 0;
-    }else if(GAME.line.lineA<=-1500 && GAME.line.lineA>=-2060){
+
+
+        if(la<=-500 && la>=-700){
+            this.comet.position.y = 900 + ((-la - 500)*1.4);
+            this.comet.position.x = 344 + (-la - 500)*0.2;
+            this.comet.scale.set(0.4+(-la - 500)*0.002);
+            this.earth.position.x = 500 - (-la - 500)*0.5;
+            this.earth.position.y = 1400 - (-la - 500)*0.6;
+            this.cometEarthShaking = false;
+            this.boomBlinking = false;
+        }else if(la<=-700 && la>=-1500){
+            this.cometEarthShaking = true;
+            this.boomBlinking = true;
+        }else{
+            this.comet.position.y = 900;
+            this.comet.position.x = 344;
+            this.comet.scale.set(0.4);
+            this.earth.position.x = 500;
+            this.earth.position.y = 1400;
+        }
+    }else if(la<=-1500 && la>=-2060){
+        this.comet.position.y = 900 + (200*1.4);
+        this.comet.position.x = 344 + 200*0.2;
+        this.comet.scale.set(0.4+200*0.002);
+        this.earth.position.x = 500 - 200*0.5;
+        this.earth.position.y = 1400 - 200*0.6;
+
         this.background.position.y = -1500;
-        this.loaderInner.width = -(GAME.line.lineA+1500);
-    }else if(GAME.line.lineA<=-2060){
+        this.loaderInner.width = -(la+1500);
+    }else if(la<=-2060){
         if(this.bgScale){
             this.bgScale = false;
             this.bgPic.scale.x = 1;
             this.bgPic.scale.y = 1;
         }
         this.loaderInner.width = 560;
-        this.background.position.y = GAME.line.lineA + 560;
+        this.background.position.y = la + 560;
+    }
+}
+
+GAME.sceneA.prototype.otherAction = function (){
+    if(this.cometEarthShaking){
+        this.cometEarthCount += 0.3;
+
+        if(Math.floor(this.cometEarthCount/10)%2===0){
+            this.comet.rotation = Math.PI/50*Math.sin(this.cometEarthCount);
+            this.earth.rotation = Math.PI/50*Math.cos(this.cometEarthCount);
+        }
+    }
+    if(this.boomBlinking){
+        this.booomCount += 0.1;
+        this.boom.scale.set(0.8+0.2*Math.sin(this.booomCount));
+    }else{
+        this.boom.scale.set(0);
     }
 }
