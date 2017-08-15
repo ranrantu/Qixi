@@ -2,35 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9bdeba8-1244-4cf2-924d-e6ae4622bf79" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/gulpfile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/shipitfile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/css/main.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/bigplanet.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/boom.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/comet.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/earth.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/loader-inner.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/loader-text.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/loader.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/planet1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/planet2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/planet_top.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/scene1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/small-star1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/small-star2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/starmap1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/img/starmap2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/js/config.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/js/globalFunction.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/js/init.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/js/pixi.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/js/sceneA.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/js/scroll.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/img/scene1.jpg" afterPath="$PROJECT_DIR$/src/img/scene1.jpg" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/img/personB.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/config.js" afterPath="$PROJECT_DIR$/src/js/config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/sceneA.js" afterPath="$PROJECT_DIR$/src/js/sceneA.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/js/scroll.js" afterPath="$PROJECT_DIR$/src/js/scroll.js" />
     </list>
@@ -49,6 +23,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gulpfile.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,8 +56,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+            <state relative-caret-position="90">
+              <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -89,23 +73,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sceneA.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sceneA.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/sceneA.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="202" column="0" lean-forward="false" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+            <state relative-caret-position="242">
+              <caret line="94" column="48" lean-forward="false" selection-start-line="94" selection-start-column="48" selection-end-line="94" selection-end-column="48" />
               <folding>
-                <element signature="e#8372#8842#0" expanded="false" />
+                <element signature="e#8539#9009#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+            <state relative-caret-position="252">
+              <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -134,10 +118,10 @@
       <file leaf-file-name="scroll.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/scroll.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="103" column="19" lean-forward="true" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
+            <state relative-caret-position="376">
+              <caret line="24" column="36" lean-forward="false" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
               <folding>
-                <element signature="e#3767#4281#0" expanded="false" />
+                <element signature="e#3771#4285#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -175,7 +159,6 @@
         <option value="$PROJECT_DIR$/build/index.html" />
         <option value="$PROJECT_DIR$/shipitfile.js" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/js/pixi.js" />
         <option value="$PROJECT_DIR$/src/js/pixi.min.js" />
         <option value="$PROJECT_DIR$/src/js/background.js" />
@@ -187,6 +170,7 @@
         <option value="$PROJECT_DIR$/src/js/config.js" />
         <option value="$PROJECT_DIR$/src/js/scroll.js" />
         <option value="$PROJECT_DIR$/src/js/sceneA.js" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -240,6 +224,12 @@
               <item name="qixi" type="b2602c69:ProjectViewProjectNode" />
               <item name="qixi" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="qixi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="qixi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -296,12 +286,12 @@
       <option name="presentableId" value="Default" />
       <updated>1502169633130</updated>
       <workItem from="1502169634383" duration="9737000" />
-      <workItem from="1502265095983" duration="87088000" />
+      <workItem from="1502265095983" duration="95114000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96825000" />
+    <option name="totallyTimeSpent" value="104851000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -365,14 +355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/img/universe_top.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -394,34 +376,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="33" lean-forward="false" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shipitfile.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="14" column="41" lean-forward="false" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -460,21 +418,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/scroll.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="103" column="19" lean-forward="true" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
+        <state relative-caret-position="376">
+          <caret line="24" column="36" lean-forward="false" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
           <folding>
-            <element signature="e#3767#4281#0" expanded="false" />
+            <element signature="e#3771#4285#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/sceneA.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="202" column="0" lean-forward="false" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+        <state relative-caret-position="242">
+          <caret line="94" column="48" lean-forward="false" selection-start-line="94" selection-start-column="48" selection-end-line="94" selection-end-column="48" />
           <folding>
-            <element signature="e#8372#8842#0" expanded="false" />
+            <element signature="e#8539#9009#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>

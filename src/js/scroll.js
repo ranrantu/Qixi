@@ -4,7 +4,7 @@ GAME.scroll = function (){
 
     this.startLength = 0;
     this.moveLength = 0;
-    this.iTop = 0;
+    this.iTop = -3000;
     this.startDest = 0;
     this.nowTop = 0;
     this.startTime;

@@ -91,6 +91,9 @@ GAME.sceneA.prototype.createSceneA = function (){
     setDefaultValue(this.textC_C,736,41,640,3220);
     this.textC_C.rotation = -.23;
 
+    this.personB = new PIXI.Sprite.fromImage('./src/img/person2.png');
+    setDefaultValue(this.personB,626,574,-2,3896);
+
     this.background.addChild(this.bgPic);
     for(var i=0;i<starAs.length;i++){
         this.background.addChild(starAs[i]);
@@ -115,6 +118,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.background.addChild(this.textC_A);
     this.background.addChild(this.textC_B);
     this.background.addChild(this.textC_C);
+    this.background.addChild(this.personB);
 
     this.loader.addChild(this.loaderInner);
     this.loader.addChild(this.loaderText);
