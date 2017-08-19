@@ -10,11 +10,22 @@ GAME.init = function (){
 
     stage = new PIXI.Container();
     let sceneA = new GAME.sceneA();
+    let sceneB = new GAME.sceneB();
+    let sceneC = new GAME.sceneC();
+    let sceneFinal = new GAME.sceneFinal();
     sceneA.createSceneA();
+    sceneB.createSceneB();
+    sceneC.createSceneC();
+    sceneFinal.createSceneFinal();
 
     let global = Global.stage;
     let zIndex = [
         global.sceneA.background,
+        global.sceneB.background,
+        global.sceneC.background,
+        graphics,
+        global.sceneFinal.background,
+        global.sceneFinal.phone,
         // global.sceneA.planetTop,
     ];
     for(let i=0;i<zIndex.length;i++){
@@ -31,6 +42,9 @@ GAME.init = function (){
         var deltaTime = now - t;
 
         sceneA.moving(deltaTime);
+        sceneB.moving(deltaTime);
+        sceneC.moving(deltaTime);
+        sceneFinal.moving(deltaTime);
 
         t = now;
         requestAnimationFrame(animate);

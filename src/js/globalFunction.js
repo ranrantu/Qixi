@@ -25,8 +25,8 @@ Global.setElementsToStage = function (name,elements){
 }
 
 setDefaultValue = function (target,width,height,x,y,scale,anchor,alpha){
-    target.width = width;
-    target.height = height;
+    if(width) target.width = width;
+    if(height) target.height = height;
     target.position.x = x;
     target.position.y = y;
 
@@ -36,7 +36,7 @@ setDefaultValue = function (target,width,height,x,y,scale,anchor,alpha){
     if(anchor){
         target.anchor.set(anchor);
     }
-    if(alpha){
+    if(alpha || alpha===0){
         target.alpha = alpha;
     }
 }

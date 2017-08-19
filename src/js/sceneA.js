@@ -1,5 +1,5 @@
 GAME.sceneA = function (){
-    this.bgTexture = new PIXI.Texture.fromImage('./src/img/scene1.jpg');
+    this.bgTexture = new PIXI.Texture.fromImage('./src/img/sceneA/scene1.jpg');
 }
 
 GAME.sceneA.prototype.createSceneA = function (){
@@ -9,21 +9,21 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.bgPic = new PIXI.Sprite(this.bgTexture);
     setDefaultValue(this.bgPic,640,4897,0,0);
 
-    this.planetTop = new PIXI.Sprite.fromImage('./src/img/planet_top.png');
+    this.planetTop = new PIXI.Sprite.fromImage('./src/img/sceneA/planet_top.png');
     setDefaultValue(this.planetTop,331,142,459,71,null,.5);
 
-    this.starmapA = new PIXI.Sprite.fromImage('./src/img/starmap1.png');
+    this.starmapA = new PIXI.Sprite.fromImage('./src/img/sceneA/starmap1.png');
     setDefaultValue(this.starmapA,127,150,495,328);
 
-    this.starmapB = new PIXI.Sprite.fromImage('./src/img/starmap2.png');
+    this.starmapB = new PIXI.Sprite.fromImage('./src/img/sceneA/starmap2.png');
     setDefaultValue(this.starmapB,332,281,71,717);
     console.log(this.starmapB);
 
-    this.starmapC = new PIXI.Sprite.fromImage('./src/img/starmap3.png');
+    this.starmapC = new PIXI.Sprite.fromImage('./src/img/sceneA/starmap3.png');
     setDefaultValue(this.starmapC,508,230,62,1702);
 
-    this.smallStarATexture = new PIXI.Texture.fromImage('./src/img/small-star1.png');
-    var starAs = [];
+    this.smallStarATexture = new PIXI.Texture.fromImage('./src/img/sceneA/small-star1.png');
+    this.starAs = [];
     var starAsLocation = [
         {x:123,y:151,scale:.5},
         {x:308,y:391,scale:1},
@@ -34,69 +34,89 @@ GAME.sceneA.prototype.createSceneA = function (){
     ];
     for(var i=0;i<starAsLocation.length;i++){
         var starA = new PIXI.Sprite(this.smallStarATexture);
+        starA.blink = 2 + Math.floor(Math.random()*6);
         setDefaultValue(starA,68*starAsLocation[i].scale,65*starAsLocation[i].scale,starAsLocation[i].x,starAsLocation[i].y);
-        starAs.push(starA);
+        this.starAs.push(starA);
     }
 
-    this.smallStarBTexture = new PIXI.Texture.fromImage('./src/img/small-star2.png');
-    this.smallStarB = new PIXI.Sprite.fromImage('./src/img/small-star2.png');
+    this.smallStarBTexture = new PIXI.Texture.fromImage('./src/img/sceneA/small-star2.png');
+    this.smallStarAs = [];
+    this.smallStarB = new PIXI.Sprite.fromImage('./src/img/sceneA/small-star2.png');
     setDefaultValue(this.smallStarB,53,53,100,200);
 
-    this.bigPlanet = new PIXI.Sprite.fromImage('./src/img/bigplanet.png');
+    this.bigPlanet = new PIXI.Sprite.fromImage('./src/img/sceneA/bigplanet.png');
     setDefaultValue(this.bigPlanet,489,203,92,525);
 
-    this.textA = new PIXI.Sprite.fromImage('./src/img/text1.png');
-    setDefaultValue(this.textA,233,143,26,980,null,null,0);
+    this.textA = new PIXI.Sprite.fromImage('./src/img/sceneA/text1.png');
+    setDefaultValue(this.textA,233,143,60,230,null,null,0);
     //星球碰撞部分
     this.cometEarthShaking = false;
-    this.comet = new PIXI.Sprite.fromImage('./src/img/comet.png');
+    this.comet = new PIXI.Sprite.fromImage('./src/img/sceneA/comet.png');
     setDefaultValue(this.comet,416,204,344,900,0.4,.5);
 
-    this.earth = new PIXI.Sprite.fromImage('./src/img/earth.png');
+    this.earth = new PIXI.Sprite.fromImage('./src/img/sceneA/earth.png');
     setDefaultValue(this.earth,361,254,500,1400,null,.5);
 
     this.boomBlinking = false;
-    this.boom = new PIXI.Sprite.fromImage('./src/img/boom.png');
+    this.boom = new PIXI.Sprite.fromImage('./src/img/sceneA/boom.png');
     setDefaultValue(this.boom,266,206,330,1230,null,.5);
 
-    this.loader = new PIXI.Sprite.fromImage('./src/img/loader.png');
+    this.loader = new PIXI.Sprite.fromImage('./src/img/sceneA/loader.png');
     setDefaultValue(this.loader,597,74,25,1955);
 
-    this.loaderInner = new PIXI.Sprite.fromImage('./src/img/loader-inner.png');
+    this.loaderInner = new PIXI.Sprite.fromImage('./src/img/sceneA/loader-inner.png');
     setDefaultValue(this.loaderInner,0,49,11,12);
 
-    this.loaderText = new PIXI.Sprite.fromImage('./src/img/loader-text.png');
+    this.loaderText = new PIXI.Sprite.fromImage('./src/img/sceneA/loader-text.png');
     setDefaultValue(this.loaderText,285,116,150,-22);
 
     //后半部分
-    this.textB = new PIXI.Sprite.fromImage('./src/img/text2.png');
+    this.textB = new PIXI.Sprite.fromImage('./src/img/sceneA/text2.png');
     setDefaultValue(this.textB,249,135,50,2260,null,null,0);
-    this.ball = new PIXI.Sprite.fromImage('./src/img/ball.png');
+    this.ball = new PIXI.Sprite.fromImage('./src/img/sceneA/ball.png');
     setDefaultValue(this.ball,332,605,310,2288);
-    this.personA = new PIXI.Sprite.fromImage('./src/img/person1.png');
+    this.personA = new PIXI.Sprite.fromImage('./src/img/sceneA/person1.png');
     setDefaultValue(this.personA,397,346,-68,25);
-    this.dotlineA = new PIXI.Sprite.fromImage('./src/img/dotline.png');
+    this.dotlineA = new PIXI.Sprite.fromImage('./src/img/sceneA/dotline.png');
     setDefaultValue(this.dotlineA,636,153,0,2950);
-    this.dotlineB = new PIXI.Sprite.fromImage('./src/img/dotline.png');
+    this.dotlineB = new PIXI.Sprite.fromImage('./src/img/sceneA/dotline.png');
     setDefaultValue(this.dotlineB,636,153,0,3040);
-    this.dotlineC = new PIXI.Sprite.fromImage('./src/img/dotline.png');
+    this.dotlineC = new PIXI.Sprite.fromImage('./src/img/sceneA/dotline.png');
     setDefaultValue(this.dotlineC,636,153,0,3130);
-    this.textC_A = new PIXI.Sprite.fromImage('./src/img/text3_1.png');
+    this.textC_A = new PIXI.Sprite.fromImage('./src/img/sceneA/text3_1.png');
     setDefaultValue(this.textC_A,509,51,640,3020);
     this.textC_A.rotation = -.23;
-    this.textC_B = new PIXI.Sprite.fromImage('./src/img/text3_2.png');
+    this.textC_B = new PIXI.Sprite.fromImage('./src/img/sceneA/text3_2.png');
     setDefaultValue(this.textC_B,315,40,-300,3131);
     this.textC_B.rotation = -.23;
-    this.textC_C = new PIXI.Sprite.fromImage('./src/img/text3_3.png');
+    this.textC_C = new PIXI.Sprite.fromImage('./src/img/sceneA/text3_3.png');
     setDefaultValue(this.textC_C,736,41,640,3220);
     this.textC_C.rotation = -.23;
+    this.textD = new PIXI.Sprite.fromImage('./src/img/sceneA/text4.png');
+    setDefaultValue(this.textD,291,40,20,3810);
+    this.textE = new PIXI.Sprite.fromImage('./src/img/sceneA/text5.png');
+    setDefaultValue(this.textE,484,130,80,4570);
 
-    this.personB = new PIXI.Sprite.fromImage('./src/img/person2.png');
+    this.personB = new PIXI.Sprite.fromImage('./src/img/sceneA/person2.png');
     setDefaultValue(this.personB,626,574,-2,3896);
+    this.bird = new PIXI.Sprite.fromImage('./src/img/sceneA/bird.png');
+    setDefaultValue(this.bird,273,203,182,117,null,null,0);
+    this.light = new PIXI.Sprite.fromImage('./src/img/sceneA/light.png');
+    setDefaultValue(this.light,561,407,42,0,null,null,0);
+    this.mouth = new PIXI.extras.MovieClip([
+        PIXI.Texture.fromImage('./src/img/sceneA/mouth1.png'),
+        PIXI.Texture.fromImage('./src/img/sceneA/mouth2.png')
+    ]);
+    setDefaultValue(this.mouth,null,null,185,389);
+    this.mouth.animationSpeed = .03;
+    this.mouth.play();
+    this.personB.addChild(this.bird);
+    this.personB.addChild(this.light);
+    this.personB.addChild(this.mouth);
 
     this.background.addChild(this.bgPic);
-    for(var i=0;i<starAs.length;i++){
-        this.background.addChild(starAs[i]);
+    for(var i=0;i<this.starAs.length;i++){
+        this.background.addChild(this.starAs[i]);
     }
     this.background.addChild(this.smallStarB);
     this.background.addChild(this.bigPlanet);
@@ -104,12 +124,11 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.background.addChild(this.starmapB);
     this.background.addChild(this.starmapC);
     this.background.addChild(this.planetTop);
-    this.background.addChild(this.textA);
     this.background.addChild(this.comet);
     this.background.addChild(this.earth);
     this.background.addChild(this.boom);
     this.background.addChild(this.loader);
-    this.background.addChild(this.textB);
+    // this.background.addChild(this.textB);
     this.ball.addChild(this.personA);
     this.background.addChild(this.ball);
     this.background.addChild(this.dotlineA);
@@ -119,6 +138,9 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.background.addChild(this.textC_B);
     this.background.addChild(this.textC_C);
     this.background.addChild(this.personB);
+    this.background.addChild(this.textD);
+    this.background.addChild(this.textE);
+    this.background.addChild(this.textA);
 
     this.loader.addChild(this.loaderInner);
     this.loader.addChild(this.loaderText);
@@ -152,10 +174,16 @@ GAME.sceneA.prototype.moving = function (){
     this.starmapB.alpha = 0.7+0.3*Math.cos(this.count*5);
     this.starmapC.alpha = 0.7+0.3*Math.sin(this.count*5);
     this.bigPlanet.alpha = 0.9+0.1*Math.sin(1+this.count*5);
+    for(var i=0;i<this.starAs.length;i++){
+        this.starAs[i].alpha = Math.sin(this.count*this.starAs[i].blink);
+    }
 
     this.otherAction();
 
     var la = GAME.line.lineA;
+    var lb = GAME.line.lineB;
+
+    this.background.position.x = lb;
 
     //lineA时间轴
     if(la<=0 && la>=-1500){
@@ -163,9 +191,17 @@ GAME.sceneA.prototype.moving = function (){
         this.background.position.y = la;
         this.loaderInner.width = 0;
 
+        if(la<-170){
+            this.textA.alpha = (-la)*0.003;
+            this.textA.position.y = ((-la)-170)+230;
+        }else{
+            this.textA.alpha = 0;
+            this.textA.position.y = 230;
+        }
+
 
         if(la<=-500 && la>=-700){
-            this.textA.alpha = 1;
+
             this.comet.position.y = 900 + ((-la - 500)*1.4);
             this.comet.position.x = 344 + (-la - 500)*0.2;
             this.comet.scale.set(0.4+(-la - 500)*0.002);
@@ -188,9 +224,13 @@ GAME.sceneA.prototype.moving = function (){
             this.comet.scale.set(0.4);
             this.earth.position.x = 500;
             this.earth.position.y = 1400;
-            this.textA.alpha = 0;
         }
     }else if(la<=-1500 && la>=-2060){
+        if(la>=-1800 && la<=-1700){
+            this.textA.alpha = 1-((-la)-1500)*0.004;
+        }else if(la>=-1700){
+            this.textA.alpha = 1;
+        }
         this.textB.alpha = 0;
         this.background.position.y = -1500;
         this.loaderInner.width = -(la+1500);
@@ -212,6 +252,12 @@ GAME.sceneA.prototype.moving = function (){
             this.textC_A.position.y = 2873 + (-la -2300)*0.64*0.23;
             this.textC_C.position.x = 640 - (-la - 2300)*0.66;
             this.textC_C.position.y = 3073 + (-la -2300)*0.66*0.23;
+        }
+        this.light.alpha = 0;
+        this.bird.alpha = 0;
+        if(la<=-3800){
+            this.light.alpha = 1;
+            this.bird.alpha = -1 + ((-la)-3800)*0.01;
         }
     }
 }
