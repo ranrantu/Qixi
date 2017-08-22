@@ -1,4 +1,7 @@
 var GAME = GAME || {};
+var renderer,stage,scroller;
+var showBall = false;
+var showBird = false;
 
 GAME.width = 640;
 GAME.height = window.innerHeight * 640 / window.innerWidth;
@@ -10,6 +13,7 @@ GAME.line = {
     lineB:0,
     lineC:0,
 }
+
 // GAME - 配置选项
 GAME.config = {
     common:[
@@ -35,15 +39,19 @@ GAME.config = {
         './src/img/sceneB/text2.png',
         './src/img/sceneB/planet_top.png',
         './src/img/sceneFinal/bg.jpg',
-        './src/img/sceneFinal/phone.png'
+        './src/img/sceneFinal/phone.png',
+        './src/img/sceneA/action1.png',
+        './src/img/sceneA/action2.png',
+        './src/img/sceneA/action3.png',
+        './src/img/sceneA/action4.png',
+        './src/img/sceneA/action5.png',
+        './src/img/sceneA/action6.png',
+        './src/img/sceneA/phone.png'
     ],
 }
 
-// if()
-//(-5457+GAME.height)
-
 GAME.locationList = [
-    {prev:-1,next:1,target:'lineA',start:0,end:(-5457+1136)},
+    {prev:-1,next:1,target:'lineA',start:0,end:(-5897+1136)},
     {prev:0,next:-1,target:'lineB',start:0,end:-4475-640},
     {prev:1,next:-1,target:'lineC',start:0,end:(-1478+GAME.height)},
 ]

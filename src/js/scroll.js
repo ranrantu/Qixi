@@ -10,6 +10,7 @@ var processFinal = false;
 var graphics = new PIXI.Graphics();
 var isPainting = false;
 var isDraging = false;
+var gameStory = false;
 
 GAME.scroll = function (){
 
@@ -20,6 +21,7 @@ GAME.scroll = function (){
     this.nowTop = 0;
     this.startTime;
     this.isTweening = false;
+    this.superTweening = false;
     this.iLeft = 0;
     this.nowLeft = 0;
     this.moveHorizontalLength = 0;
@@ -46,161 +48,167 @@ GAME.scroll = function (){
     var self = this;
 
     document.body.addEventListener('touchstart',function (event){
-        if(!processD){
-            event.preventDefault();
-            self.isTweening = false;
-            cancelAnimationFrame(self.step);
-            self.startTime = new Date().getTime();
-            self.startLength = self.startDest = event.touches[0].pageY;
-            self.startHorizontalLength = self.startHorizontalDest = event.touches[0].pageX;
-        }else{
-            isPainting = true;
-            graphics.beginFill(0xfc601d);
-            graphics.lineStyle(0);
-            graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX*GAME.ratio,event.changedTouches[0].pageY*GAME.ratio,15));
-            graphics.endFill();
-            self.fx = event.touches[0].pageX;
-            self.fy = event.touches[0].pageY;
-            self.lastX = event.touches[0].pageX;
-            self.lastY = event.touches[0].pageY;
+        if(!gameStory) {
+            self.iTop = self.nowTop;
+            self.iLeft = self.nowLeft;
+            if (!processD) {
+                // event.preventDefault();
+                self.isTweening = false;
+                cancelAnimationFrame(self.step);
+                self.startTime = new Date().getTime();
+                self.startLength = self.startDest = event.changedTouches[0].pageY;
+                self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
+            } else {
+                isPainting = true;
+                graphics.beginFill(0xfc601d);
+                graphics.lineStyle(0);
+                graphics.drawShape(new PIXI.Circle(event.touches[0].pageX * GAME.ratio, event.touches[0].pageY * GAME.ratio, 15));
+                graphics.endFill();
+                self.fx = event.touches[0].pageX;
+                self.fy = event.touches[0].pageY;
+                self.lastX = event.touches[0].pageX;
+                self.lastY = event.touches[0].pageY;
+            }
         }
     },true);
 
     document.body.addEventListener('touchmove',function (event){
-    if(!processD) {
-        self.moveLength = (event.changedTouches[0].pageY - self.startLength) * GAME.ratio / 2;
-        self.moveHorizontalLength = (event.changedTouches[0].pageX - self.startHorizontalLength) * GAME.ratio / 2;
+        if(!gameStory) {
+            if (!processD) {
+                self.moveLength = (event.changedTouches[0].pageY - self.startLength) * GAME.ratio/2;
+                self.moveHorizontalLength = (event.changedTouches[0].pageX - self.startHorizontalLength) * GAME.ratio/2;
 
-        if (processA) {
-            if (self.iTop + self.moveLength <= self.endLocation) {
-                self.nowTop = self.iTop = self.endLocation;
-                processB = true;
-                self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
-                self.nowLeft = self.iLeft = 0;
-            } else if (self.iTop + self.moveLength >= self.startLocation) {
-                self.nowTop = self.iTop = self.startLocation;
+                if (processA) {
+                    if (self.iTop + self.moveLength <= self.endLocation) {
+                        self.nowTop = self.iTop = self.endLocation;
+                        processB = true;
+                        self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
+                        self.nowLeft = self.iLeft = 0;
+                    } else if (self.iTop + self.moveLength >= self.startLocation) {
+                        self.nowTop = self.iTop = self.startLocation;
+                    } else {
+                        self.nowTop = self.iTop + (event.changedTouches[0].pageY - self.startLength) * GAME.ratio/2;
+                        processB = false;
+                    }
+
+                    GAME.line[self.target] = self.nowTop;
+                }
+
+                if (processB) {
+                    if (self.iLeft + self.moveHorizontalLength <= GAME.locationList[1].end) {
+                        self.nowLeft = self.iLeft = GAME.locationList[1].end;
+                        processC = true;
+                        self.startLength = self.startDest = event.changedTouches[0].pageY;
+                        self.nowTop = self.iTop = 0;
+                    } else if (self.iLeft + self.moveHorizontalLength >= GAME.locationList[1].start) {
+                        processA = true;
+                        self.startLength = self.startDest = event.changedTouches[0].pageY;
+                        self.nowTop = self.iTop = self.endLocation;
+                        self.nowLeft = self.iLeft = GAME.locationList[1].start;
+                    } else {
+                        self.nowLeft = self.iLeft + (event.changedTouches[0].pageX - self.startHorizontalLength) * GAME.ratio/2;
+                        processA = false;
+                        processC = false;
+                    }
+                    GAME.line.lineB = self.nowLeft;
+                }
+                if (processC) {
+                    if (self.iTop + self.moveLength < GAME.locationList[2].end) {
+                        self.nowTop = self.iTop = GAME.locationList[2].end;
+                        console.log('结束 画地图');
+                        processD = true;
+                    } else if (self.iTop + self.moveLength > GAME.locationList[2].start) {
+                        self.nowTop = self.iTop = GAME.locationList[2].start;
+                        processB = true;
+                        self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
+                        self.nowLeft = self.iLeft = GAME.locationList[1].end;
+                    } else {
+                        self.nowTop = self.iTop + (event.changedTouches[0].pageY - self.startLength) * GAME.ratio/2;
+                        processB = false;
+                    }
+                    GAME.line.lineC = self.nowTop;
+                }
+
+                var thisTime = new Date().getTime();
+                if (thisTime - self.startTime > 300) {
+                    self.startTime = thisTime;
+                    self.startDest = event.changedTouches[0].pageY;
+                    self.startHorizontalDest = event.changedTouches[0].pageX;
+                }
+                // event.preventDefault();
             } else {
-                self.nowTop = self.iTop + (event.changedTouches[0].pageY - self.startLength) * GAME.ratio / 2;
-                processB = false;
+                isDraging = true;
+                graphics.beginFill(0xfc601d);
+                graphics.lineStyle(0);
+                graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio, 15));
+                graphics.endFill();
+                graphics.lineStyle(30, 0xfc601d, 1);
+                graphics.moveTo(self.lastX * GAME.ratio, self.lastY * GAME.ratio);
+                graphics.lineTo(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio);
+                // graphics.endFill(0xfc601d, 1);
+                self.lastX = event.changedTouches[0].pageX;
+                self.lastY = event.changedTouches[0].pageY;
             }
-
-            GAME.line[self.target] = self.nowTop;
         }
-
-        if (processB) {
-            if (self.iLeft + self.moveHorizontalLength <= GAME.locationList[1].end) {
-                self.nowLeft = self.iLeft = GAME.locationList[1].end;
-                processC = true;
-                self.startLength = self.startDest = event.changedTouches[0].pageY;
-                self.nowTop = self.iTop = 0;
-            } else if (self.iLeft + self.moveHorizontalLength >= GAME.locationList[1].start) {
-                processA = true;
-                self.startLength = self.startDest = event.changedTouches[0].pageY;
-                self.nowTop = self.iTop = self.endLocation;
-                self.nowLeft = self.iLeft = GAME.locationList[1].start;
-            } else {
-                self.nowLeft = self.iLeft + ((event.changedTouches[0].pageX - self.startHorizontalLength) * GAME.ratio / 2);
-                processA = false;
-                processC = false;
-            }
-            GAME.line.lineB = self.nowLeft;
-        }
-        if (processC) {
-            if (self.iTop + self.moveLength < GAME.locationList[2].end) {
-                self.nowTop = self.iTop = GAME.locationList[2].end;
-                console.log('结束 画地图');
-                processD = true;
-            } else if (self.iTop + self.moveLength > GAME.locationList[2].start) {
-                self.nowTop = self.iTop = GAME.locationList[2].start;
-                processB = true;
-                self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
-                self.nowLeft = self.iLeft = GAME.locationList[1].end;
-            } else {
-                self.nowTop = self.iTop + (event.changedTouches[0].pageY - self.startLength) * GAME.ratio / 2;
-                processB = false;
-            }
-            GAME.line.lineC = self.nowTop;
-        }
-
-        var thisTime = new Date().getTime();
-        if (thisTime - self.startTime > 300) {
-            self.startTime = thisTime;
-            self.startDest = event.changedTouches[0].pageY;
-            self.startHorizontalDest = event.changedTouches[0].pageX;
-        }
-        event.preventDefault();
-    }else{
-        isDraging = true;
-        graphics.beginFill(0xfc601d);
-        graphics.lineStyle(0);
-        graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX*GAME.ratio,event.changedTouches[0].pageY*GAME.ratio,15));
-        graphics.endFill();
-        graphics.lineStyle(30, 0xfc601d, 1);
-        graphics.moveTo(self.lastX*GAME.ratio,self.lastY*GAME.ratio);
-        graphics.lineTo(event.changedTouches[0].pageX*GAME.ratio, event.changedTouches[0].pageY*GAME.ratio);
-        // graphics.endFill(0xfc601d, 1);
-        self.lastX = event.changedTouches[0].pageX;
-        self.lastY = event.changedTouches[0].pageY;
-    }
     },true);
 
     document.body.addEventListener('touchend',function (event){
-    if(!processD) {
-        var now = new Date().getTime(),
-            duration = now - self.startTime,
-            deceleration = 0.0006,
-            destination,
-            offsetTop = self.nowTop,
-            offsetLeft = self.nowLeft;
-        if (processA) {
-            if (GAME.line[self.target] !== self.startLocation && GAME.line[self.target] !== self.endLocation) {
+        if(!gameStory) {
+            if (!processD) {
+                var now = new Date().getTime(),
+                    duration = now - self.startTime,
+                    deceleration = 0.0006,
+                    destination,
+                    offsetTop = self.nowTop,
+                    offsetLeft = self.nowLeft;
+                if (processA) {
+                    if (GAME.line[self.target] !== self.startLocation && GAME.line[self.target] !== self.endLocation) {
 
-                if (duration < 300) {
-                    var distance = event.changedTouches[0].pageY - self.startDest,
-                        speed = Math.min(1.2, Math.abs(distance) / duration);
+                        if (duration < 300) {
+                            var distance = event.changedTouches[0].pageY - self.startDest,
+                                speed = Math.min(1, Math.abs(distance) / duration);
 
-                    destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                    self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 0);
-                } else {
-                    self.iTop = offsetTop;
+                            destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                            self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 0);
+                        } else {
+                            self.iTop = offsetTop;
+                        }
+                    }
                 }
+
+                if (processB) {
+                    if (GAME.line.lineB !== GAME.locationList[1].start && GAME.line.lineB !== GAME.locationList[1].end) {
+                        if (duration < 300) {
+                            var distance = event.changedTouches[0].pageX - self.startHorizontalDest,
+                                speed = Math.min(1, Math.abs(distance) / duration);
+
+                            destination = offsetLeft + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                            self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 1);
+                        } else {
+                            self.iLeft = offsetLeft;
+                        }
+                    }
+                }
+
+                if (processC) {
+                    if (GAME.line.lineC !== GAME.locationList[2].start && GAME.line.lineC !== GAME.locationList[2].end) {
+                        if (duration < 300) {
+                            var distance = event.changedTouches[0].pageY - self.startDest,
+                                speed = Math.min(1, Math.abs(distance) / duration);
+
+                            destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                            self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 2);
+                        } else {
+                            self.iTop = offsetTop;
+                        }
+                    }
+                }
+            } else {
+                graphics.clear();
+                console.log('进入手机界面');
+                self.toFinalPage(self.fx, self.fy, event.changedTouches[0].pageX, event.changedTouches[0].pageY);
             }
         }
-
-        if (processB) {
-            if (GAME.line.lineB !== GAME.locationList[1].start && GAME.line.lineB !== GAME.locationList[1].end) {
-                if (duration < 300) {
-                    var distance = event.changedTouches[0].pageX - self.startHorizontalDest,
-                        speed = Math.min(1.2, Math.abs(distance) / duration);
-
-                    destination = offsetLeft + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                    self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 1);
-                } else {
-                    self.iLeft = offsetLeft;
-                }
-            }
-        }
-
-        if (processC) {
-            if (GAME.line.lineC !== GAME.locationList[2].start && GAME.line.lineC !== GAME.locationList[2].end) {
-                if (duration < 300) {
-                    var distance = event.changedTouches[0].pageY - self.startDest,
-                        speed = Math.min(1.2, Math.abs(distance) / duration);
-
-                    destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                    self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 2);
-                } else {
-                    self.iTop = offsetTop;
-                }
-            }
-        }
-    }else{
-        graphics.clear();
-        console.log('进入手机界面');
-        // if()
-        // processFinal = true;
-        self.toFinalPage(self.fx,self.fy,event.changedTouches[0].pageX,event.changedTouches[0].pageY);
-    }
     },true);
 }
 
@@ -313,6 +321,52 @@ GAME.scroll.prototype._scrollTo = function (destination,duration,easingFn,type){
     this.step();
 }
 
+GAME.scroll.prototype.moveTo = function (target,name,start,end,speed,callback){
+    var deceleration = 0.0006,
+        distance = end - start,
+        destination = start + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+    gameStory = true;
+    cancelAnimationFrame(this.step);
+    this.isTweening = true;
+    console.log(2223)
+
+    this.superScroll(target,name,end,destination, speed / deceleration, GAME.scroll.ease.linear.fn,callback);
+}
+
+GAME.scroll.prototype.superScroll = function (target,name,end,destination,duration,easingFn,callback){
+    var self = this,
+        beginTime = new Date().getTime(),
+        destTime = beginTime + duration,
+        beginLength = target[name];
+
+    this.step = function (){
+        var now = new Date().getTime(),
+            easing;
+        if(now>=destTime){
+            self.isTweening = false;
+            return;
+        }
+
+        now = (now-beginTime)/duration;
+        easing = easingFn(now);
+
+        target[name] = (destination - beginLength)*easing + beginLength;
+        if(target[name]<=end){
+            self.isTweening = false;
+            target[name] = end;
+            // self.nowTop = self.iTop = end;
+            callback && callback(self);
+            cancelAnimationFrame(self.step);
+        }
+        self.isTweening&&requestAnimationFrame(self.step);
+    }
+    this.step();
+}
+
+GAME.scroll.prototype.updateProps = function (callback){
+    callback && callback(this);
+}
+
 GAME.scroll.ease = {
     circular:{
         style: 'cubic-bezier(0.1, 0.57, 0.1, 1)',
@@ -333,4 +387,11 @@ GAME.scroll.ease = {
             return ( k = k - 1 ) * k * ( ( b + 1 ) * k + b ) + 1;
         }
     },
+    linear:{
+        style: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        fn: function (k) {
+            var b = 4;
+            return k;
+        }
+    }
 }

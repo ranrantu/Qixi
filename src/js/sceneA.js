@@ -9,6 +9,11 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.bgPic = new PIXI.Sprite(this.bgTexture);
     setDefaultValue(this.bgPic,640,4897,0,0);
 
+    this.tracer = new PIXI.Sprite.fromImage('./src/img/sceneA/tracer.png');
+    setDefaultValue(this.tracer,41,331,450,150,null,null,0);
+    this.hand = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
+    setDefaultValue(this.hand,100,81,10,10);
+
     this.planetTop = new PIXI.Sprite.fromImage('./src/img/sceneA/planet_top.png');
     setDefaultValue(this.planetTop,331,142,459,71,null,.5);
 
@@ -62,36 +67,79 @@ GAME.sceneA.prototype.createSceneA = function (){
     setDefaultValue(this.boom,266,206,330,1230,null,.5);
 
     this.loader = new PIXI.Sprite.fromImage('./src/img/sceneA/loader.png');
-    setDefaultValue(this.loader,597,74,25,1955);
+    setDefaultValue(this.loader,597,74,25,GAME.height - 100);
 
     this.loaderInner = new PIXI.Sprite.fromImage('./src/img/sceneA/loader-inner.png');
     setDefaultValue(this.loaderInner,0,49,11,12);
 
     this.loaderText = new PIXI.Sprite.fromImage('./src/img/sceneA/loader-text.png');
-    setDefaultValue(this.loaderText,285,116,150,-22);
+    setDefaultValue(this.loaderText,285,116,150,-22,null,null,0);
 
-    //后半部分
-    this.textB = new PIXI.Sprite.fromImage('./src/img/sceneA/text2.png');
-    setDefaultValue(this.textB,249,135,50,2260,null,null,0);
+    this.loaderPercentage = new PIXI.Text('0%',{
+        fontFamily: 'Arial',
+        fontSize: 40,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['#003d94', '#015697'], // gradient
+        stroke: '#ffffff',
+        strokeThickness: 4,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 2,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 2,
+    });
+    this.loaderPercentage.x = 250;
+    this.loaderPercentage.y = 10;
+
+    // 星象稳定后
     this.ball = new PIXI.Sprite.fromImage('./src/img/sceneA/ball.png');
-    setDefaultValue(this.ball,332,605,310,2288);
+    setDefaultValue(this.ball,332,605,400,2600);
     this.personA = new PIXI.Sprite.fromImage('./src/img/sceneA/person1.png');
     setDefaultValue(this.personA,397,346,-68,25);
-    this.dotlineA = new PIXI.Sprite.fromImage('./src/img/sceneA/dotline.png');
-    setDefaultValue(this.dotlineA,636,153,0,2950);
-    this.dotlineB = new PIXI.Sprite.fromImage('./src/img/sceneA/dotline.png');
-    setDefaultValue(this.dotlineB,636,153,0,3040);
-    this.dotlineC = new PIXI.Sprite.fromImage('./src/img/sceneA/dotline.png');
-    setDefaultValue(this.dotlineC,636,153,0,3130);
+
+    this.actionFrames = [
+        PIXI.Texture.fromImage('./src/img/sceneA/action1.png'),
+        PIXI.Texture.fromImage('./src/img/sceneA/action2.png'),
+        PIXI.Texture.fromImage('./src/img/sceneA/action3.png'),
+        PIXI.Texture.fromImage('./src/img/sceneA/action4.png'),
+        PIXI.Texture.fromImage('./src/img/sceneA/action5.png'),
+        PIXI.Texture.fromImage('./src/img/sceneA/action6.png'),
+    ];
+    this.actions = new PIXI.Sprite(this.actionFrames[0]);
+    setDefaultValue(this.actions,95,50,157,272);
+
+    this.paopao = new PIXI.Sprite.fromImage('./src/img/sceneA/paopao.png');
+    setDefaultValue(this.paopao,253,208,-280,80,null,null,0);
+
     this.textC_A = new PIXI.Sprite.fromImage('./src/img/sceneA/text3_1.png');
-    setDefaultValue(this.textC_A,509,51,640,3020);
-    this.textC_A.rotation = -.23;
+    setDefaultValue(this.textC_A,175,25,30,30,null,null,0);
     this.textC_B = new PIXI.Sprite.fromImage('./src/img/sceneA/text3_2.png');
-    setDefaultValue(this.textC_B,315,40,-300,3131);
-    this.textC_B.rotation = -.23;
+    setDefaultValue(this.textC_B,175,25,30,70,null,null,0);
     this.textC_C = new PIXI.Sprite.fromImage('./src/img/sceneA/text3_3.png');
-    setDefaultValue(this.textC_C,736,41,640,3220);
-    this.textC_C.rotation = -.23;
+    setDefaultValue(this.textC_C,175,25,30,110,null,null,0);
+
+    this.phone = new PIXI.Sprite.fromImage('./src/img/sceneA/phone.png');
+    this.background.interactive = true;
+    setDefaultValue(this.phone,432,270,140,2865,null,null,0);
+    this.background.on('tap',function (e){
+        var position = e.data.global;
+        console.log(position.x,position.y,!showBird);
+
+        if(showBird && position.x>=65 && position.x <=280 && position.y>=346 && position.y<=480){
+            showBird = false;
+            scroller.moveTo(GAME.line,'lineA',-3200,-4761,3,function (e){
+                e.nowTop = e.iTop = -4761;
+                gameStory = false;
+            });
+        }
+
+    });
+    this.lingling = new PIXI.Sprite.fromImage('./src/img/sceneA/lingling.png');
+    setDefaultValue(this.lingling,87,47,150,-45);
+    this.finger = new PIXI.Sprite.fromImage('./src/img/sceneA/finger.png');
+    setDefaultValue(this.finger,165,103,-80,-30);
+
     this.textD = new PIXI.Sprite.fromImage('./src/img/sceneA/text4.png');
     setDefaultValue(this.textD,291,40,20,3810);
     this.textE = new PIXI.Sprite.fromImage('./src/img/sceneA/text5.png');
@@ -128,22 +176,27 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.background.addChild(this.earth);
     this.background.addChild(this.boom);
     this.background.addChild(this.loader);
-    // this.background.addChild(this.textB);
     this.ball.addChild(this.personA);
+    this.ball.addChild(this.actions);
+    this.ball.addChild(this.paopao);
+    this.paopao.addChild(this.textC_A);
+    this.paopao.addChild(this.textC_B);
+    this.paopao.addChild(this.textC_C);
     this.background.addChild(this.ball);
-    this.background.addChild(this.dotlineA);
-    this.background.addChild(this.dotlineB);
-    this.background.addChild(this.dotlineC);
-    this.background.addChild(this.textC_A);
-    this.background.addChild(this.textC_B);
-    this.background.addChild(this.textC_C);
     this.background.addChild(this.personB);
+    this.background.addChild(this.phone);
+    this.phone.addChild(this.finger);
+    this.phone.addChild(this.lingling);
+
     this.background.addChild(this.textD);
     this.background.addChild(this.textE);
     this.background.addChild(this.textA);
+    this.background.addChild(this.tracer);
+    this.tracer.addChild(this.hand);
 
     this.loader.addChild(this.loaderInner);
     this.loader.addChild(this.loaderText);
+    this.loader.addChild(this.loaderPercentage);
 
     var elements = {
         'background':this.background,
@@ -155,15 +208,19 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.cometEarthCount = 0;
     this.booomCount = 0;
     this.bgCount = 0;
+    this.handerCount = 0;
+    this.handerUp = true;
+    this.hasShowHanderUp = false;
 }
 
 GAME.sceneA.prototype.moving = function (){
+    // console.log(this.background.position.y);
 
-    if(this.bgScale){
-        this.bgCount += 0.01;
-        this.bgPic.scale.x = 1.05 + 0.05*Math.sin(this.bgCount);
-        this.bgPic.scale.y = 1.01 + 0.01*Math.cos(this.bgCount);
-    }
+    // if(this.bgScale){
+        // this.bgCount += 0.01;
+        // this.bgPic.scale.x = 1.05 + 0.05*Math.sin(this.bgCount);
+        // this.bgPic.scale.y = 1.01 + 0.01*Math.cos(this.bgCount);
+    // }
 
     this.count += 0.01;
     this.planetTop.scale.x = 0.9 + 0.1*Math.cos(this.count);
@@ -173,10 +230,12 @@ GAME.sceneA.prototype.moving = function (){
     this.starmapA.alpha = 0.7+0.3*Math.sin(this.count*5);
     this.starmapB.alpha = 0.7+0.3*Math.cos(this.count*5);
     this.starmapC.alpha = 0.7+0.3*Math.sin(this.count*5);
-    this.bigPlanet.alpha = 0.9+0.1*Math.sin(1+this.count*5);
+    this.bigPlanet.alpha = 0.8+0.2*Math.sin(1+this.count*8);
     for(var i=0;i<this.starAs.length;i++){
         this.starAs[i].alpha = Math.sin(this.count*this.starAs[i].blink);
     }
+
+
 
     this.otherAction();
 
@@ -185,11 +244,41 @@ GAME.sceneA.prototype.moving = function (){
 
     this.background.position.x = lb;
 
+    if(this.handerUp){
+        var speed = Math.PI/2 + this.count * 5;
+        var math = Math.sin(speed-Math.PI*2);
+        var math2 = Math.sin(speed-Math.PI/2);
+        var tracer1 = math>0?0:math;
+        var tracer = math2>0?0:math2;
+        var hander;
+        var p = (speed)%(Math.PI*2);
+        if(p<=Math.PI*2 && p>=Math.PI){
+            hander = tracer1;
+            this.hand.alpha = 1;
+        }else{
+            hander = -1;
+            this.hand.alpha = 0;
+        }
+        this.tracer.alpha = -tracer;
+        this.hand.position.y = -240*hander;
+    }else{
+        this.tracer.alpha = 0;
+    }
+    if(!this.hasShowHanderUp){
+        if(la<=-1){
+            this.handerUp = false;
+            this.hasShowHanderUp = true;
+        }else{
+            this.handerUp = true;
+        }
+    }
+
+
     //lineA时间轴
     if(la<=0 && la>=-1500){
         this.bgScale = true;
         this.background.position.y = la;
-        this.loaderInner.width = 0;
+        // this.loaderInner.width = 0;
 
         if(la<-170){
             this.textA.alpha = (-la)*0.003;
@@ -198,10 +287,22 @@ GAME.sceneA.prototype.moving = function (){
             this.textA.alpha = 0;
             this.textA.position.y = 230;
         }
+        // -1955 + GAME.height
+        // ((-1955 + GAME.height) - (-la)).toFixed(2)*1000/10   ---    text
 
+        this.loaderInner.width = (-la) / 1500 * 560;
+        var aa = ((-la) / 1500).toFixed(2)*100;
+        // this.loaderPercentage.text = ((-la) / 1500).toFixed(2)*100 + '%';
+        // this.loaderPercentage.text = (-la) + '%';
+        this.loaderPercentage.alpha = 1;
+        this.loaderText.alpha = 0;
+        if(((-la) + (GAME.height - 100)) < 1955){
+            this.loader.position.y = (-la) + (GAME.height - 100);
+        }else{
+            this.loader.position.y = 1955;
+        }
 
         if(la<=-500 && la>=-700){
-
             this.comet.position.y = 900 + ((-la - 500)*1.4);
             this.comet.position.x = 344 + (-la - 500)*0.2;
             this.comet.scale.set(0.4+(-la - 500)*0.002);
@@ -225,39 +326,119 @@ GAME.sceneA.prototype.moving = function (){
             this.earth.position.x = 500;
             this.earth.position.y = 1400;
         }
-    }else if(la<=-1500 && la>=-2060){
-        if(la>=-1800 && la<=-1700){
-            this.textA.alpha = 1-((-la)-1500)*0.004;
-        }else if(la>=-1700){
-            this.textA.alpha = 1;
-        }
-        this.textB.alpha = 0;
-        this.background.position.y = -1500;
-        this.loaderInner.width = -(la+1500);
-    }else if(la<=-2060){
-        this.textB.alpha = 1;
+
+        this.ball.position.x = 400;
+        this.ball.position.y = 2800;
+    }else if(la<=-1500 && la>=-2000){
+        this.loaderInner.width = 560;
+        this.loaderPercentage.alpha = 0;
+        this.loaderText.alpha = 1;
+        this.loader.position.y = 1955;
+        this.loader.alpha = 2-(-la-1500)*0.004;
+        this.textA.alpha = 0;
+
+        this.ball.position.x = 400 - ((-la)-1500)/500 * 90;
+        this.ball.position.y = 2800 - ((-la)-1500)/500 * 700;
+
+        this.background.position.y = la;
+        this.paopao.alpha = 0;
+
         if(this.bgScale){
             this.bgScale = false;
             this.bgPic.scale.x = 1;
             this.bgPic.scale.y = 1;
         }
-        this.loaderInner.width = 560;
-        this.background.position.y = la + 560;
+    }else if(la<= -2000 && la>= -3000){
+        //星球降落
+        this.loader.alpha = 0;
+        this.ball.position.x = 310;
+        this.ball.position.y = 2100;
+        this.background.position.y = -2000;
         if(la<=-2500 && la>=-3000){
-            this.textC_B.position.x = -300 + (-la - 2500)*0.7;
-            this.textC_B.position.y = 3200 - (-la - 2500)*0.7*0.23;
+            // if(!showBall){
+            //     showBall = true;
+            //     scroller.moveTo(GAME.line,'lineA',-2500,-3200,1,function (e){
+            //         e.nowTop = e.iTop = -3200;
+            //         showBird = false;
+            //     });
+            // }
+            var index = Math.min(5,Math.floor((-la-2500)/30));
+            this.actions.texture = this.actionFrames[index];
+        }else{
+            this.actions.texture = this.actionFrames[0];
+            this.paopao.alpha = (-la-2000)/250;
+            this.textC_A.alpha = (-la-2000)/160;
+            this.textC_B.alpha = -1 + (-la-2000)/160;
+            this.textC_C.alpha = -2 + (-la-2000)/160;
         }
-        if(la<=-2300 && la>=-3300){
-            this.textC_A.position.x = 640 - (-la - 2300)*0.64;
-            this.textC_A.position.y = 2873 + (-la -2300)*0.64*0.23;
-            this.textC_C.position.x = 640 - (-la - 2300)*0.66;
-            this.textC_C.position.y = 3073 + (-la -2300)*0.66*0.23;
+        this.phone.alpha = 0;
+    }else if(la<=-3000){
+        this.actions.texture = this.actionFrames[5];
+        this.paopao.alpha = 1;
+        this.textC_A.alpha = 1;
+        this.textC_B.alpha = 1;
+        this.textC_C.alpha = 1;
+        this.lingling.alpha = Math.sin(this.count*10);
+        // -80 -30
+        this.finger.position.x = -80 + 10*Math.sin(this.count*5);
+        this.finger.position.y = -30 + 5*Math.sin(this.count*5);
+
+        if(la<=-3000 && la>=-3160){
+            this.ball.position.y = ((-la) -3000) + 2100;
+            this.phone.alpha = ((-la) -3000)/160;
+        }else{
+            this.ball.position.y = 2260;
+            this.phone.alpha = 1;
         }
+        // this.textB.alpha = 1;
+        // this.loaderInner.width = 560;
+        this.background.position.y = la + 1000;
+
+        if(la<=-3200){
+            if(!showBall){
+                showBall = true;
+                scroller.updateProps(function (e){
+                    gameStory = true;
+                    cancelAnimationFrame(e.step);
+                    e.isTweening = false;
+                    e.nowTop = e.iTop = -3200;
+                    showBird = true;
+                })
+                // scroller.moveTo(GAME.line,'lineA',-2500,-3200,1,function (e){
+                //     e.nowTop = e.iTop = -3200;
+                //     showBird = false;
+                // });
+            }
+            if(showBird){
+                scroller.updateProps(function (e){
+                    e.step && cancelAnimationFrame(e.step);
+                    e.isTweening = false;
+                    e.nowTop = e.iTop = -3200;
+                    la = -3200;
+                });
+            }
+        }
+        this.background.position.y = la + 1000;
+
+        // if(la<=-2500 && la>=-3000){
+        //     this.textC_B.position.x = -300 + (-la - 2500)*0.7;
+        //     this.textC_B.position.y = 3200 - (-la - 2500)*0.7*0.23;
+        // }
+        // if(la<=-2300 && la>=-3300){
+        //     this.textC_A.position.x = 640 - (-la - 2300)*0.64;
+        //     this.textC_A.position.y = 2873 + (-la -2300)*0.64*0.23;
+        //     this.textC_C.position.x = 640 - (-la - 2300)*0.66;
+        //     this.textC_C.position.y = 3073 + (-la -2300)*0.66*0.23;
+        // }
+
+        // 呼叫喜鹊大队长前
+
+        // 呼叫喜鹊大队长后
         this.light.alpha = 0;
         this.bird.alpha = 0;
-        if(la<=-3800){
+        if(la<=-4400){
             this.light.alpha = 1;
-            this.bird.alpha = -1 + ((-la)-3800)*0.01;
+            this.bird.alpha = -1 + ((-la)-4400)*0.01;
         }
     }
 }

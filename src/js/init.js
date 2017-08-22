@@ -1,14 +1,13 @@
 var GAME = GAME || {};
-var renderer,stage;
 
 GAME.init = function (){
-    new GAME.scroll();
 
     renderer = PIXI.autoDetectRenderer(GAME.width, GAME.height, {
         view: document.querySelector('#pixi-canvas')
     },true);
 
     stage = new PIXI.Container();
+    scroller = new GAME.scroll();
     let sceneA = new GAME.sceneA();
     let sceneB = new GAME.sceneB();
     let sceneC = new GAME.sceneC();
