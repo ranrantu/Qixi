@@ -9,6 +9,8 @@ GAME.sceneC.prototype.createSceneC = function (){
 
     this.background = new PIXI.Sprite.fromImage(baseUrl+'bg.jpg');
     setDefaultValue(this.background,640,1478,0,0);
+    this.light = new PIXI.Sprite.fromImage(baseUrl+'light.png');
+    setDefaultValue(this.light,400,573,127,772,null,null,0);
     this.logo = new PIXI.Sprite.fromImage(baseUrl+'logo.jpg');
     setDefaultValue(this.logo,157,43,35,28);
     this.imgA = new PIXI.Sprite.fromImage(baseUrl+'img1.jpg');
@@ -26,8 +28,21 @@ GAME.sceneC.prototype.createSceneC = function (){
     this.smalls = new PIXI.Sprite.fromImage(baseUrl+'smalls.jpg');
     setDefaultValue(this.smalls,82,79,286,772);
     this.bigs = new PIXI.Sprite.fromImage(baseUrl+'bigs.jpg');
-    setDefaultValue(this.bigs,398,388,120,958);
+    setDefaultValue(this.bigs,398,388,127,958,null,null,0);
 
+    this.sArray = [];
+    for(var i=0;i<5;i++){
+        (function (target){
+            var s = new PIXI.Sprite.fromImage(baseUrl+'bigs.jpg');
+            var y = 830 + i*60;
+            var scale = 0.2 + i*0.16;
+            setDefaultValue(s,398,388,327,y,scale,.5,0);
+            target.sArray.push(s);
+        })(this)
+
+    }
+
+    this.background.addChild(this.light);
     this.background.addChild(this.logo);
     this.background.addChild(this.imgA);
     this.background.addChild(this.textA);
@@ -37,6 +52,9 @@ GAME.sceneC.prototype.createSceneC = function (){
     this.background.addChild(this.textD);
     this.background.addChild(this.smalls);
     this.background.addChild(this.bigs);
+    for(var i=0;i<5;i++){
+        this.background.addChild(this.sArray[i])
+    }
 
     var elements = {
         'background':this.background,
@@ -49,10 +67,27 @@ GAME.sceneC.prototype.moving = function (){
     var lb = GAME.line.lineB;
 
 
-    if(lb<=-4475){
-        this.background.x = -((-lb)-4475-640);
+    if(lb<=-2197){
+        this.background.x = -((-lb)-2197-640);
     }else{
         this.background.x = 640;
     }
+    this.background.x = 0;
     this.background.y = lc;
+
+    if(lc<=-270){
+        // this.light.alpha = ((-lc)-270)*0.02;
+        this.smalls.alpha = 1-((-lc)-270)*0.02;
+        this.bigs.alpha = ((-lc)-270)*0.02;
+
+        var length = (-lc)-270;
+
+        for(var i=0;i<5;i++){
+            var alpha = Math.cos(Math.PI/2 + Math.PI*(i-length)/40);
+            // if(alpha<.99){
+                alpha *= .5;
+            // }
+            this.sArray[i].alpha = alpha;
+        }
+    }
 }

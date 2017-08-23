@@ -1,9 +1,9 @@
 var GAME = GAME || {};
 
 
-var processA = true;
+var processA = false;
 var processB = false;
-var processC = false;
+var processC = true;
 var processD = false;
 var processFinal = false;
 
@@ -106,6 +106,7 @@ GAME.scroll = function (){
                         self.nowTop = self.iTop = self.endLocation;
                         self.nowLeft = self.iLeft = GAME.locationList[1].start;
                     } else {
+                        self.px = event.changedTouches[0].pageX;
                         self.nowLeft = self.iLeft + (event.changedTouches[0].pageX - self.startHorizontalLength) * GAME.ratio/2;
                         processA = false;
                         processC = false;
@@ -137,17 +138,18 @@ GAME.scroll = function (){
                 }
                 // event.preventDefault();
             } else {
-                isDraging = true;
-                graphics.beginFill(0xfc601d);
-                graphics.lineStyle(0);
-                graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio, 15));
-                graphics.endFill();
-                graphics.lineStyle(30, 0xfc601d, 1);
-                graphics.moveTo(self.lastX * GAME.ratio, self.lastY * GAME.ratio);
-                graphics.lineTo(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio);
-                // graphics.endFill(0xfc601d, 1);
-                self.lastX = event.changedTouches[0].pageX;
-                self.lastY = event.changedTouches[0].pageY;
+                if(isPainting){
+                    graphics.beginFill(0xfc601d);
+                    graphics.lineStyle(0);
+                    graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio, 15));
+                    graphics.endFill();
+                    graphics.lineStyle(30, 0xfc601d, 1);
+                    graphics.moveTo(self.lastX * GAME.ratio, self.lastY * GAME.ratio);
+                    graphics.lineTo(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio);
+                    // graphics.endFill(0xfc601d, 1);
+                    self.lastX = event.changedTouches[0].pageX;
+                    self.lastY = event.changedTouches[0].pageY;
+                }
             }
         }
     },true);
@@ -166,7 +168,12 @@ GAME.scroll = function (){
 
                         if (duration < 300) {
                             var distance = event.changedTouches[0].pageY - self.startDest,
-                                speed = Math.min(1, Math.abs(distance) / duration);
+                                speed;
+                            if(Math.abs(distance) / duration){
+                                speed = Math.min(1, Math.abs(distance) / duration)
+                            }else{
+                                speed = 1;
+                            }
 
                             destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
                             self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 0);
@@ -180,7 +187,12 @@ GAME.scroll = function (){
                     if (GAME.line.lineB !== GAME.locationList[1].start && GAME.line.lineB !== GAME.locationList[1].end) {
                         if (duration < 300) {
                             var distance = event.changedTouches[0].pageX - self.startHorizontalDest,
-                                speed = Math.min(1, Math.abs(distance) / duration);
+                                speed;
+                            if(Math.abs(distance) / duration){
+                                speed = Math.min(1, Math.abs(distance) / duration)
+                            }else{
+                                speed = 1;
+                            }
 
                             destination = offsetLeft + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
                             self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 1);
@@ -194,7 +206,12 @@ GAME.scroll = function (){
                     if (GAME.line.lineC !== GAME.locationList[2].start && GAME.line.lineC !== GAME.locationList[2].end) {
                         if (duration < 300) {
                             var distance = event.changedTouches[0].pageY - self.startDest,
-                                speed = Math.min(1, Math.abs(distance) / duration);
+                                speed;
+                            if(Math.abs(distance) / duration){
+                                speed = Math.min(1, Math.abs(distance) / duration)
+                            }else{
+                                speed = 1;
+                            }
 
                             destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
                             self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 2);
@@ -206,6 +223,7 @@ GAME.scroll = function (){
             } else {
                 graphics.clear();
                 console.log('进入手机界面');
+                isPainting = false;
                 self.toFinalPage(self.fx, self.fy, event.changedTouches[0].pageX, event.changedTouches[0].pageY);
             }
         }

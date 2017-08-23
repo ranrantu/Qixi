@@ -10,7 +10,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     setDefaultValue(this.bgPic,640,4897,0,0);
 
     this.tracer = new PIXI.Sprite.fromImage('./src/img/sceneA/tracer.png');
-    setDefaultValue(this.tracer,41,331,450,150,null,null,0);
+    setDefaultValue(this.tracer,41,331,310,150,null,null,0);
     this.hand = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
     setDefaultValue(this.hand,100,81,10,10);
 
@@ -75,6 +75,36 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.loaderText = new PIXI.Sprite.fromImage('./src/img/sceneA/loader-text.png');
     setDefaultValue(this.loaderText,285,116,150,-22,null,null,0);
 
+    var textStyle = {
+        fontFamily: 'Arial',
+        fontSize: 40,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['#003d94', '#015697'], // gradient
+        stroke: '#ffffff',
+        strokeThickness: 4,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 2,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 2,
+    };
+
+    this.unitsDigits = [];
+    this.tensDigits = [];
+    for(var i=0;i<10;i++){
+        var unitsDigit = new PIXI.Text(i,textStyle);
+        var tensDigit = new PIXI.Text(i,textStyle);
+        this.unitsDigits.push(unitsDigit);
+        this.tensDigits.push(tensDigit);
+        setDefaultValue(tensDigit,null,null,245,10);
+        setDefaultValue(unitsDigit,null,null,270,10);
+    }
+    this.persentage = new PIXI.Text('%',textStyle);
+    setDefaultValue(this.persentage,null,null,295,10);
+    this.persentageContainer = new PIXI.Container();
+    setDefaultValue(this.persentageContainer,597,74,0,0);
+
     this.loaderPercentage = new PIXI.Text('0%',{
         fontFamily: 'Arial',
         fontSize: 40,
@@ -124,16 +154,13 @@ GAME.sceneA.prototype.createSceneA = function (){
     setDefaultValue(this.phone,432,270,140,2865,null,null,0);
     this.background.on('tap',function (e){
         var position = e.data.global;
-        console.log(position.x,position.y,!showBird);
-
         if(showBird && position.x>=65 && position.x <=280 && position.y>=346 && position.y<=480){
             showBird = false;
-            scroller.moveTo(GAME.line,'lineA',-3200,-4761,3,function (e){
+            scroller.moveTo(GAME.line,'lineA',-3200,-4761,10,function (e){
                 e.nowTop = e.iTop = -4761;
                 gameStory = false;
             });
         }
-
     });
     this.lingling = new PIXI.Sprite.fromImage('./src/img/sceneA/lingling.png');
     setDefaultValue(this.lingling,87,47,150,-45);
@@ -156,11 +183,17 @@ GAME.sceneA.prototype.createSceneA = function (){
         PIXI.Texture.fromImage('./src/img/sceneA/mouth2.png')
     ]);
     setDefaultValue(this.mouth,null,null,185,389);
-    this.mouth.animationSpeed = .03;
+    this.mouth.animationSpeed = .1;
     this.mouth.play();
     this.personB.addChild(this.bird);
     this.personB.addChild(this.light);
     this.personB.addChild(this.mouth);
+
+    this.tracerBottom = new PIXI.Sprite.fromImage('./src/img/sceneA/tracer.png');
+    setDefaultValue(this.tracerBottom,41,331,470,4460,null,null,1);
+    this.tracerBottom.rotation = Math.PI/2;
+    this.handBottom = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
+    setDefaultValue(this.handBottom,100,81,10,10);
 
     this.background.addChild(this.bgPic);
     for(var i=0;i<this.starAs.length;i++){
@@ -193,10 +226,17 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.background.addChild(this.textA);
     this.background.addChild(this.tracer);
     this.tracer.addChild(this.hand);
+    this.background.addChild(this.tracerBottom);
+    this.tracerBottom.addChild(this.handBottom);
 
     this.loader.addChild(this.loaderInner);
     this.loader.addChild(this.loaderText);
-    this.loader.addChild(this.loaderPercentage);
+    for(var i=0;i<10;i++){
+        this.persentageContainer.addChild(this.unitsDigits[i]);
+        this.persentageContainer.addChild(this.tensDigits[i]);
+    }
+    this.persentageContainer.addChild(this.persentage);
+    this.loader.addChild(this.persentageContainer);
 
     var elements = {
         'background':this.background,
@@ -204,6 +244,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     Global.setElementsToStage('sceneA',elements);
 
     this.count = 0;
+    this.handerBottomCount = 0;
     this.bgScale = true;
     this.cometEarthCount = 0;
     this.booomCount = 0;
@@ -211,6 +252,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.handerCount = 0;
     this.handerUp = true;
     this.hasShowHanderUp = false;
+    this.handerLeft = false;
 }
 
 GAME.sceneA.prototype.moving = function (){
@@ -235,17 +277,14 @@ GAME.sceneA.prototype.moving = function (){
         this.starAs[i].alpha = Math.sin(this.count*this.starAs[i].blink);
     }
 
-
-
     this.otherAction();
 
     var la = GAME.line.lineA;
     var lb = GAME.line.lineB;
-
     this.background.position.x = lb;
 
     if(this.handerUp){
-        var speed = Math.PI/2 + this.count * 5;
+        var speed = Math.PI/2 + this.count * 4;
         var math = Math.sin(speed-Math.PI*2);
         var math2 = Math.sin(speed-Math.PI/2);
         var tracer1 = math>0?0:math;
@@ -256,7 +295,7 @@ GAME.sceneA.prototype.moving = function (){
             hander = tracer1;
             this.hand.alpha = 1;
         }else{
-            hander = -1;
+            hander = 0;
             this.hand.alpha = 0;
         }
         this.tracer.alpha = -tracer;
@@ -264,6 +303,7 @@ GAME.sceneA.prototype.moving = function (){
     }else{
         this.tracer.alpha = 0;
     }
+
     if(!this.hasShowHanderUp){
         if(la<=-1){
             this.handerUp = false;
@@ -272,7 +312,6 @@ GAME.sceneA.prototype.moving = function (){
             this.handerUp = true;
         }
     }
-
 
     //lineA时间轴
     if(la<=0 && la>=-1500){
@@ -294,7 +333,8 @@ GAME.sceneA.prototype.moving = function (){
         var aa = ((-la) / 1500).toFixed(2)*100;
         // this.loaderPercentage.text = ((-la) / 1500).toFixed(2)*100 + '%';
         // this.loaderPercentage.text = (-la) + '%';
-        this.loaderPercentage.alpha = 1;
+        this.persentageContainer.alpha = 1;
+        this.showPersentage(((-la) / 1500).toFixed(2)*100+'');
         this.loaderText.alpha = 0;
         if(((-la) + (GAME.height - 100)) < 1955){
             this.loader.position.y = (-la) + (GAME.height - 100);
@@ -331,7 +371,7 @@ GAME.sceneA.prototype.moving = function (){
         this.ball.position.y = 2800;
     }else if(la<=-1500 && la>=-2000){
         this.loaderInner.width = 560;
-        this.loaderPercentage.alpha = 0;
+        this.persentageContainer.alpha = 0;
         this.loaderText.alpha = 1;
         this.loader.position.y = 1955;
         this.loader.alpha = 2-(-la-1500)*0.004;
@@ -440,6 +480,45 @@ GAME.sceneA.prototype.moving = function (){
             this.light.alpha = 1;
             this.bird.alpha = -1 + ((-la)-4400)*0.01;
         }
+
+        if(la==-4761 && lb==0){
+            this.handerBottomCount += 0.01;
+            var speed = Math.PI/2 + this.count * 4;
+            var math = Math.cos(speed-Math.PI*2+Math.PI/2);
+            var math2 = Math.cos(speed-Math.PI/2+Math.PI/2);
+            var tracer1 = math<0?0:math;
+            var tracer = math2>0?0:math2;
+            var hander;
+            var p = (speed)%(Math.PI*2);
+            if(p<=Math.PI*2 && p>=Math.PI){
+                hander = tracer1;
+                this.hand.alpha = 1;
+            }else{
+                hander = 0;
+                this.hand.alpha = 0;
+            }
+            this.tracerBottom.alpha = -tracer;
+            this.handBottom.position.y = 240*hander;
+        }else{
+            this.tracerBottom.alpha = 0;
+        }
+    }
+}
+
+GAME.sceneA.prototype.showPersentage = function (numString){
+    if(numString.length==1){
+        for(var i=0;i<10;i++){
+            this.unitsDigits[i].alpha = 0;
+            this.tensDigits[i].alpha = 0;
+        }
+        this.unitsDigits[numString].alpha = 1;
+    }else if(numString.length==2){
+        for(var i=0;i<10;i++){
+            this.unitsDigits[i].alpha = 0;
+            this.tensDigits[i].alpha = 0;
+        }
+        this.unitsDigits[numString[1]].alpha = 1;
+        this.tensDigits[numString[0]].alpha = 1;
     }
 }
 

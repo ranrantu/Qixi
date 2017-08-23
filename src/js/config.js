@@ -46,12 +46,14 @@ GAME.config = {
         './src/img/sceneA/action4.png',
         './src/img/sceneA/action5.png',
         './src/img/sceneA/action6.png',
-        './src/img/sceneA/phone.png'
+        './src/img/sceneA/phone.png',
+        './src/img/sceneC/bigs.jpg',
+        './src/img/sceneB/zn_text.png',
     ],
 }
 
 GAME.locationList = [
     {prev:-1,next:1,target:'lineA',start:0,end:(-5897+1136)},
-    {prev:0,next:-1,target:'lineB',start:0,end:-4475-640},
+    {prev:0,next:-1,target:'lineB',start:0,end:-2197-640},
     {prev:1,next:-1,target:'lineC',start:0,end:(-1478+GAME.height)},
 ]
