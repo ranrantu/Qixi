@@ -12,6 +12,7 @@ GAME.line = {
     lineA:0,
     lineB:0,
     lineC:0,
+    lineFinal:0
 }
 
 // GAME - 配置选项
@@ -49,6 +50,9 @@ GAME.config = {
         './src/img/sceneA/phone.png',
         './src/img/sceneC/bigs.jpg',
         './src/img/sceneB/zn_text.png',
+        './src/img/sceneFinal/zn.png',
+        './src/img/sceneFinal/love.png',
+        './src/img/sceneFinal/heart.png',
     ],
 }
 

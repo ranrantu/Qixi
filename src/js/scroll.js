@@ -1,11 +1,18 @@
 var GAME = GAME || {};
 
 
-var processA = false;
+var processA = true;
 var processB = false;
-var processC = true;
+var processC = false;
 var processD = false;
 var processFinal = false;
+
+
+// var processA = false;
+// var processB = false;
+// var processC = true;
+// var processD = false;
+// var processFinal = false;
 
 var graphics = new PIXI.Graphics();
 var isPainting = false;
@@ -59,15 +66,19 @@ GAME.scroll = function (){
                 self.startLength = self.startDest = event.changedTouches[0].pageY;
                 self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
             } else {
-                isPainting = true;
-                graphics.beginFill(0xfc601d);
-                graphics.lineStyle(0);
-                graphics.drawShape(new PIXI.Circle(event.touches[0].pageX * GAME.ratio, event.touches[0].pageY * GAME.ratio, 15));
-                graphics.endFill();
-                self.fx = event.touches[0].pageX;
-                self.fy = event.touches[0].pageY;
-                self.lastX = event.touches[0].pageX;
-                self.lastY = event.touches[0].pageY;
+                if(processFinal){
+                    GAME.line.lineFinal += 5;
+                }else{
+                    isPainting = true;
+                    graphics.beginFill(0xfc601d);
+                    graphics.lineStyle(0);
+                    graphics.drawShape(new PIXI.Circle(event.touches[0].pageX * GAME.ratio, event.touches[0].pageY * GAME.ratio, 15));
+                    graphics.endFill();
+                    self.fx = event.touches[0].pageX;
+                    self.fy = event.touches[0].pageY;
+                    self.lastX = event.touches[0].pageX;
+                    self.lastY = event.touches[0].pageY;
+                }
             }
         }
     },true);
@@ -138,17 +149,21 @@ GAME.scroll = function (){
                 }
                 // event.preventDefault();
             } else {
-                if(isPainting){
-                    graphics.beginFill(0xfc601d);
-                    graphics.lineStyle(0);
-                    graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio, 15));
-                    graphics.endFill();
-                    graphics.lineStyle(30, 0xfc601d, 1);
-                    graphics.moveTo(self.lastX * GAME.ratio, self.lastY * GAME.ratio);
-                    graphics.lineTo(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio);
-                    // graphics.endFill(0xfc601d, 1);
-                    self.lastX = event.changedTouches[0].pageX;
-                    self.lastY = event.changedTouches[0].pageY;
+                if(processFinal){
+
+                }else{
+                    if(isPainting){
+                        graphics.beginFill(0xfc601d);
+                        graphics.lineStyle(0);
+                        graphics.drawShape(new PIXI.Circle(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio, 15));
+                        graphics.endFill();
+                        graphics.lineStyle(30, 0xfc601d, 1);
+                        graphics.moveTo(self.lastX * GAME.ratio, self.lastY * GAME.ratio);
+                        graphics.lineTo(event.changedTouches[0].pageX * GAME.ratio, event.changedTouches[0].pageY * GAME.ratio);
+                        // graphics.endFill(0xfc601d, 1);
+                        self.lastX = event.changedTouches[0].pageX;
+                        self.lastY = event.changedTouches[0].pageY;
+                    }
                 }
             }
         }
@@ -221,10 +236,14 @@ GAME.scroll = function (){
                     }
                 }
             } else {
-                graphics.clear();
-                console.log('进入手机界面');
-                isPainting = false;
-                self.toFinalPage(self.fx, self.fy, event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+                if(processFinal){
+
+                }else{
+                    graphics.clear();
+                    console.log('进入手机界面');
+                    isPainting = false;
+                    self.toFinalPage(self.fx, self.fy, event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+                }
             }
         }
     },true);

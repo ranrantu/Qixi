@@ -72,7 +72,7 @@ GAME.sceneC.prototype.moving = function (){
     }else{
         this.background.x = 640;
     }
-    this.background.x = 0;
+    // this.background.x = 0;
     this.background.y = lc;
 
     if(lc<=-270){
