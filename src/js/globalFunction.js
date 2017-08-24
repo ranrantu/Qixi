@@ -17,6 +17,12 @@ Global = {
             contain[i].style.transform = 'scale('+scale+')';
             contain[i].style.WebkitTransform = 'scale('+scale+')';
         }
+
+        var logo = document.getElementById('logo');
+        logo.style.transform = 'scale('+scale*2/3+')';
+        logo.style.WebkitTransform = 'scale('+scale*2/3+')';
+        logo.style.top = 20*scale*2/3;
+        logo.style.left = 30*scale*2/3;
     },
 };
 

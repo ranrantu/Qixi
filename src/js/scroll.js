@@ -6,6 +6,8 @@ var processB = false;
 var processC = false;
 var processD = false;
 var processFinal = false;
+var processFA = true;
+var processFB = false;
 
 
 // var processA = false;
@@ -55,6 +57,7 @@ GAME.scroll = function (){
     var self = this;
 
     document.body.addEventListener('touchstart',function (event){
+        console.log(event.touches[0].pageX,event.touches[0].pageY);
         if(!gameStory) {
             self.iTop = self.nowTop;
             self.iLeft = self.nowLeft;
@@ -63,11 +66,16 @@ GAME.scroll = function (){
                 self.isTweening = false;
                 cancelAnimationFrame(self.step);
                 self.startTime = new Date().getTime();
-                self.startLength = self.startDest = event.changedTouches[0].pageY;
-                self.startHorizontalLength = self.startHorizontalDest = event.changedTouches[0].pageX;
+                self.startLength = self.startDest = event.touches[0].pageY;
+                self.startHorizontalLength = self.startHorizontalDest = event.touches[0].pageX;
             } else {
                 if(processFinal){
-                    GAME.line.lineFinal += 5;
+                    if(processFA){
+                        processFA = false;
+                        processFB = true;
+                    }else{
+                        GAME.line.lineFinal += 5;
+                    }
                 }else{
                     isPainting = true;
                     graphics.beginFill(0xfc601d);
@@ -170,6 +178,7 @@ GAME.scroll = function (){
     },true);
 
     document.body.addEventListener('touchend',function (event){
+        console.log(event.changedTouches[0].pageX,event.changedTouches[0].pageY,self.startDest);
         if(!gameStory) {
             if (!processD) {
                 var now = new Date().getTime(),
@@ -190,8 +199,11 @@ GAME.scroll = function (){
                                 speed = 1;
                             }
 
-                            destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                            self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 0);
+                            if(distance!=0){
+                                destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                                self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 0);
+                            }
+
                         } else {
                             self.iTop = offsetTop;
                         }
@@ -208,9 +220,10 @@ GAME.scroll = function (){
                             }else{
                                 speed = 1;
                             }
-
-                            destination = offsetLeft + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                            self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 1);
+                            if(distance!=0) {
+                                destination = offsetLeft + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                                self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 1);
+                            }
                         } else {
                             self.iLeft = offsetLeft;
                         }
@@ -223,13 +236,14 @@ GAME.scroll = function (){
                             var distance = event.changedTouches[0].pageY - self.startDest,
                                 speed;
                             if(Math.abs(distance) / duration){
-                                speed = Math.min(1, Math.abs(distance) / duration)
+                                speed = Math.min(1, Math.abs(distance) / duration);
                             }else{
                                 speed = 1;
                             }
-
-                            destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                            self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 2);
+                            if(distance!=0) {
+                                destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                                self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 2);
+                            }
                         } else {
                             self.iTop = offsetTop;
                         }
@@ -264,7 +278,7 @@ GAME.scroll.prototype._scrollTo = function (destination,duration,easingFn,type){
     var self = this,
         beginTime = new Date().getTime(),
         destTime = beginTime + duration,
-        beginLength = (type==0||type==2)?self.nowTop:self.nowLeft;
+        beginLength = ((type==0)||(type==2))?self.nowTop:self.nowLeft;
 
     if(type==0){
         this.step = function (){

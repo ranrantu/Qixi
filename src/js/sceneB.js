@@ -34,7 +34,7 @@ GAME.sceneB.prototype.createSceneB = function (){
     this.head = new PIXI.Sprite.fromImage('./src/img/sceneB/head.png');
     setDefaultValue(this.head,251,231,-210,680,null,null,0);
     this.znText = new PIXI.Sprite.fromImage('./src/img/sceneB/zn_text.png');
-    setDefaultValue(this.znText,74,175,500,375);
+    setDefaultValue(this.znText,74,175,560,400,.5,.5);
     this.zn = new PIXI.Sprite.fromImage('./src/img/sceneB/zn.png');
     setDefaultValue(this.zn,490,382,650,220,.5,.5);
     // this.textB = new PIXI.Sprite.fromImage('./src/img/sceneB/text2.png');
@@ -149,6 +149,7 @@ GAME.sceneB.prototype.moving = function (){
         this.textA_B.alpha = -1+((-lb)-640)*0.01;
         this.textA_C.alpha = -1.5+((-lb)-640)*0.01;
         this.zn.scale.set(0.5);
+        this.znText.scale.set(0.5);
         this.head.alpha = 0;
     }else if(lb<=-850 && lb>=-1600){
         var offset = lb+850;
@@ -156,6 +157,7 @@ GAME.sceneB.prototype.moving = function (){
         this.report.position.x = 163-offset;
         var length = 0.5+(-offset)*0.004;
         this.zn.scale.set(length>1?1:length);
+        this.znText.scale.set(length>1?1:length);
         this.textA_A.alpha = 1;
         this.textA_B.alpha = 1;
         this.textA_C.alpha = 1;
@@ -193,6 +195,7 @@ GAME.sceneB.prototype.moving = function (){
         this.textB_B.alpha = -1+((-lb)-1600)*0.01;
         this.textB_C.alpha = -1.5+((-lb)-1600)*0.01;
         this.zn.scale.set(1);
+        this.znText.scale.set(1);
     }else if(lb<=-1850){
         var offset = (lb+1850)-750;
         this.background.position.x = offset;

@@ -23,6 +23,7 @@ GAME.init = function (){
         global.sceneB.background,
         global.sceneC.background,
         graphics,
+        global.sceneFinal.backPage,
         global.sceneFinal.background,
         global.sceneFinal.phone,
         // global.sceneA.planetTop,
@@ -43,10 +44,11 @@ GAME.init = function (){
         sceneA.moving(deltaTime);
         sceneB.moving(deltaTime);
         sceneC.moving(deltaTime);
-        sceneFinal.moving(deltaTime);
+        sceneFinal.moving(sceneC);
 
         t = now;
         requestAnimationFrame(animate);
+        // TWEEN.update();
     }
 }
 

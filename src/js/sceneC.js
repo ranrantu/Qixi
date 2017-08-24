@@ -24,17 +24,17 @@ GAME.sceneC.prototype.createSceneC = function (){
     this.textC = new PIXI.Sprite.fromImage(baseUrl+'text3.png');
     setDefaultValue(this.textC,302,79,30,583);
     this.textD = new PIXI.Sprite.fromImage(baseUrl+'text4.png');
-    setDefaultValue(this.textD,542,713,30,673);
+    setDefaultValue(this.textD,542,713,30,720);
     this.smalls = new PIXI.Sprite.fromImage(baseUrl+'smalls.jpg');
     setDefaultValue(this.smalls,82,79,286,772);
     this.bigs = new PIXI.Sprite.fromImage(baseUrl+'bigs.jpg');
     setDefaultValue(this.bigs,398,388,127,958,null,null,0);
 
     this.sArray = [];
-    for(var i=0;i<5;i++){
+    for(var i=0;i<6;i++){
         (function (target){
             var s = new PIXI.Sprite.fromImage(baseUrl+'bigs.jpg');
-            var y = 830 + i*60;
+            var y = 830 + i*64;
             var scale = 0.2 + i*0.16;
             setDefaultValue(s,398,388,327,y,scale,.5,0);
             target.sArray.push(s);
@@ -43,7 +43,6 @@ GAME.sceneC.prototype.createSceneC = function (){
     }
 
     this.background.addChild(this.light);
-    this.background.addChild(this.logo);
     this.background.addChild(this.imgA);
     this.background.addChild(this.textA);
     this.background.addChild(this.imgB);
@@ -52,7 +51,8 @@ GAME.sceneC.prototype.createSceneC = function (){
     this.background.addChild(this.textD);
     this.background.addChild(this.smalls);
     this.background.addChild(this.bigs);
-    for(var i=0;i<5;i++){
+    // this.background.addChild(this.logo);
+    for(var i=0;i<6;i++){
         this.background.addChild(this.sArray[i])
     }
 
@@ -74,20 +74,35 @@ GAME.sceneC.prototype.moving = function (){
     }
     // this.background.x = 0;
     this.background.y = lc;
+    // this.logo.position.y = -lc+28;
 
-    if(lc<=-270){
-        // this.light.alpha = ((-lc)-270)*0.02;
-        this.smalls.alpha = 1-((-lc)-270)*0.02;
-        this.bigs.alpha = ((-lc)-270)*0.02;
+    if(lc<=-270 && lc>=-320){
+        this.light.alpha = ((-lc)-270)*0.004;
+        this.smalls.alpha = 1-((-lc)-270)*0.004;
+        this.bigs.alpha = ((-lc)-270)*0.004;
 
         var length = (-lc)-270;
 
-        for(var i=0;i<5;i++){
-            var alpha = Math.cos(Math.PI/2 + Math.PI*(i-length)/40);
-            // if(alpha<.99){
+        for(var i=0;i<6;i++){
+            var alpha = Math.cos(Math.PI/2 + Math.PI*(i-length)/80);
+            if(alpha<.99){
                 alpha *= .5;
-            // }
+            }
             this.sArray[i].alpha = alpha;
         }
+    }else if(lc>=-270){
+        for(var i=0;i<6;i++){
+            this.sArray[i].alpha = 0;
+        }
+        this.smalls.alpha = 1;
+        this.light.alpha = 0;
+        this.bigs.alpha = 0;
+    }else{
+        for(var i=0;i<6;i++){
+            this.sArray[i].alpha = 0;
+        }
+        this.light.alpha = 0;
+        this.smalls.alpha = 0;
+        this.bigs.alpha = 1;
     }
 }
