@@ -30,7 +30,8 @@ GAME.sceneB.prototype.createSceneB = function (){
     // this.textA = new PIXI.Sprite.fromImage('./src/img/sceneB/text1.png');
     // setDefaultValue(this.textA,776,46,550,880,null,null,0);
     this.arrow = new PIXI.Sprite.fromImage('./src/img/sceneB/arrow.png');
-    setDefaultValue(this.arrow,563,796,550,124);
+    setDefaultValue(this.arrow,950,796,650,124);
+
     this.head = new PIXI.Sprite.fromImage('./src/img/sceneB/head.png');
     setDefaultValue(this.head,251,231,-210,680,null,null,0);
     this.znText = new PIXI.Sprite.fromImage('./src/img/sceneB/zn_text.png');
@@ -78,6 +79,16 @@ GAME.sceneB.prototype.createSceneB = function (){
     this.bird5.play();
     this.bird6.play();
 
+    this.report.addChild(this.paopao);
+    this.paopao.addChild(this.textA_A);
+    this.paopao.addChild(this.textA_B);
+    this.paopao.addChild(this.textA_C);
+    this.paopao.addChild(this.textB_A);
+    this.paopao.addChild(this.textB_B);
+    this.paopao.addChild(this.textB_C);
+
+    this.background.addChild(this.arrow);
+    this.arrow.addChild(this.head);
     this.background.addChild(this.planetTop);
     this.background.addChild(this.planetBottom);
     this.background.addChild(this.bird6);
@@ -88,22 +99,13 @@ GAME.sceneB.prototype.createSceneB = function (){
     this.background.addChild(this.bird1);
     this.background.addChild(this.nlText);
     this.background.addChild(this.nl);
+    this.background.addChild(this.report);
     this.background.addChild(this.length);
-    this.background.addChild(this.arrow);
-    this.arrow.addChild(this.head);
     // this.background.addChild(this.textA);
     this.background.addChild(this.znText);
     this.background.addChild(this.zn);
     // this.background.addChild(this.textB);
 
-    this.background.addChild(this.report);
-    this.report.addChild(this.paopao);
-    this.paopao.addChild(this.textA_A);
-    this.paopao.addChild(this.textA_B);
-    this.paopao.addChild(this.textA_C);
-    this.paopao.addChild(this.textB_A);
-    this.paopao.addChild(this.textB_B);
-    this.paopao.addChild(this.textB_C);
     var elements = {
         'background':this.background,
     };
@@ -131,8 +133,8 @@ GAME.sceneB.prototype.moving = function (){
     }else{
         this.report.alpha = 0;
     }
-    if(lb<=-400){
-        this.length.alpha = ((-lb)-400)*0.005;
+    if(lb<=-500){
+        this.length.alpha = ((-lb)-400)*0.003;
         // this.textA.alpha = 1;
     }else{
         this.length.alpha = 0;
@@ -150,7 +152,6 @@ GAME.sceneB.prototype.moving = function (){
         this.textA_C.alpha = -1.5+((-lb)-640)*0.01;
         this.zn.scale.set(0.5);
         this.znText.scale.set(0.5);
-        this.head.alpha = 0;
     }else if(lb<=-850 && lb>=-1600){
         var offset = lb+850;
         this.background.position.x = offset;
@@ -164,28 +165,17 @@ GAME.sceneB.prototype.moving = function (){
         this.textB_A.alpha = 0;
         this.textB_B.alpha = 0;
         this.textB_C.alpha = 0;
-        // -100,680
-        // if(la)
-        this.head.alpha = 0;
-        // console.log(lb)
-        if(lb<=-950 && lb>=-1300){
-            this.head.alpha = (-offset-100)*0.006;
-            this.head.position.x = -210 + (-offset-100)*8/5;
-            this.head.position.y = 680;
-            this.head.rotation = 0;
-        }else if(lb<=-1300 && lb>=-1550){
-            this.head.alpha = 1;
-            this.head.position.x = 350;
-            this.head.position.y = 900 + (offset + 450)*78/25;
-            this.head.rotation = -Math.PI/2;
-        }else if(lb<=-1550 && lb>=-1600){
-            this.head.rotation = 0;
-            this.head.alpha = 1;
-            this.head.position.x = 350 + (-offset-700);
-            this.head.position.y = -100;
+        this.paopao.position.x = 100;
+        this.paopao.position.y = -280;
+        if(lb<=-1200){
+            this.paopao.position.x = 120;
+            this.paopao.position.y = -80;
+            this.paopao.alpha = 0;
         }
     }else if(lb<=-1600 && lb>=-1850){
         var offset = 750;
+        this.paopao.alpha = 1;
+        //100 -280
         this.background.position.x = -offset;
         this.report.position.x = 163+offset;
         this.textA_A.alpha = 0;
@@ -200,6 +190,36 @@ GAME.sceneB.prototype.moving = function (){
         var offset = (lb+1850)-750;
         this.background.position.x = offset;
         this.report.position.x = 163+750;
+    }else{
+        this.paopao.alpha = 0;
+    }
+
+
+    if(lb<=-850){
+        var offset = lb+850;
+        // console.log(lb)
+        if(lb<=-950 && lb>=-1170){
+            this.head.alpha = (-offset-100)*0.006;
+            this.head.position.x = -210 + (-offset-100)*8/5;
+            this.head.position.y = 680;
+            this.head.rotation = 0;
+        }else if(lb<=-1170 && lb>=-1550){
+            this.head.alpha = 1;
+            this.arrow.alpha = 1;
+            this.head.position.x = 150;
+            this.head.position.y = 900 + (offset + 320)*40/19;
+            this.head.rotation = -Math.PI/2;
+        }else if(lb<=-1550){
+            this.head.rotation = 0;
+            this.head.position.x = 150 + (-offset-700);
+            this.head.position.y = -100;
+            this.head.alpha = 1;
+            if(lb<=-2200){
+                this.head.position.x = 800;
+            }
+        }else{
+            this.head.alpha = 0;
+        }
     }
 
     // if(lb<=-1500 && lb>=-1600){

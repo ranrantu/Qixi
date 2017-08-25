@@ -9,7 +9,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.bgPic = new PIXI.Sprite(this.bgTexture);
     setDefaultValue(this.bgPic,640,4897,0,0);
 
-    this.tracer = new PIXI.Sprite.fromImage('./src/img/sceneA/tracer.png');
+    this.tracer = new PIXI.Container();
     setDefaultValue(this.tracer,41,331,310,150,null,null,0);
     this.hand = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
     setDefaultValue(this.hand,100,81,10,10);
@@ -163,19 +163,21 @@ GAME.sceneA.prototype.createSceneA = function (){
         }
     });
     this.lingling = new PIXI.Sprite.fromImage('./src/img/sceneA/lingling.png');
-    setDefaultValue(this.lingling,87,47,150,-45);
+    setDefaultValue(this.lingling,87,47,160,-35);
     this.finger = new PIXI.Sprite.fromImage('./src/img/sceneA/finger.png');
     setDefaultValue(this.finger,165,103,-80,-30);
 
     this.textD = new PIXI.Sprite.fromImage('./src/img/sceneA/text4.png');
-    setDefaultValue(this.textD,291,40,20,3810);
+    setDefaultValue(this.textD,474,40,20,3800);
     this.textE = new PIXI.Sprite.fromImage('./src/img/sceneA/text5.png');
-    setDefaultValue(this.textE,484,130,80,4570);
+    setDefaultValue(this.textE,551,395,40,4450);
 
     this.personB = new PIXI.Sprite.fromImage('./src/img/sceneA/person2.png');
     setDefaultValue(this.personB,626,574,-2,3896);
     this.bird = new PIXI.Sprite.fromImage('./src/img/sceneA/bird.png');
     setDefaultValue(this.bird,273,203,182,117,null,null,0);
+    this.tel = new PIXI.Sprite.fromImage('./src/img/sceneA/tel.png');
+    setDefaultValue(this.tel,227,65,20,110);
     this.light = new PIXI.Sprite.fromImage('./src/img/sceneA/light.png');
     setDefaultValue(this.light,561,407,42,0,null,null,0);
     this.mouth = new PIXI.extras.MovieClip([
@@ -186,6 +188,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.mouth.animationSpeed = .1;
     this.mouth.play();
     this.personB.addChild(this.bird);
+    this.bird.addChild(this.tel);
     this.personB.addChild(this.light);
     this.personB.addChild(this.mouth);
 

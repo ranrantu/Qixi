@@ -74,7 +74,7 @@ GAME.scroll = function (){
                         processFA = false;
                         processFB = true;
                     }else{
-                        GAME.line.lineFinal += 5;
+                        GAME.line.lineFinal += 6;
                     }
                 }else{
                     isPainting = true;

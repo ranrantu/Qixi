@@ -13,6 +13,8 @@ GAME.sceneFinal.prototype.createSceneFinal = function (){
 
     this.background = new PIXI.Sprite.fromImage(baseUrl+'bg.jpg');
     setDefaultValue(this.background,640,GAME.height,0,0,null,null,0);
+    this.logo = new PIXI.Sprite.fromImage('./src/img/sceneC/logo.png');
+    setDefaultValue(this.logo,157,43,35,28);
 
     this.b1 = new PIXI.Sprite.fromImage(baseUrl+'b1.png');
     setDefaultValue(this.b1,170,240,0,839);
@@ -35,23 +37,24 @@ GAME.sceneFinal.prototype.createSceneFinal = function (){
     setDefaultValue(this.znStarMap,490,382,493,185,.5,.5);
 //  195 ->543
     this.girl = new PIXI.Sprite.fromImage(baseUrl+'girl.png');
-    setDefaultValue(this.girl,84,94,235,255,null,null,0);
+    setDefaultValue(this.girl,87,99,235,255,null,null,0);
     this.boy = new PIXI.Sprite.fromImage(baseUrl+'boy.png');
-    setDefaultValue(this.boy,62,63,325,280,null,null,0);
+    setDefaultValue(this.boy,65,66,325,280,null,null,0);
     this.ball = new PIXI.Sprite.fromImage(baseUrl+'ball.png');
-    setDefaultValue(this.ball,358,438,0,30);
+    setDefaultValue(this.ball,355,483,0,30);
     this.love = new PIXI.Sprite.fromImage(baseUrl+'love.png');
     setDefaultValue(this.love,398,312,300,310,null,.5,1);
     this.bridge = new PIXI.Sprite.fromImage(baseUrl+'bridge.png');
-    setDefaultValue(this.bridge,543,182,44,344);
+    // setDefaultValue(this.bridge,543,182,44,344);
+    setDefaultValue(this.bridge,606,210,5,364);
     this.happy = new PIXI.Sprite.fromImage(baseUrl+'happy.png');
     setDefaultValue(this.happy,610,466,14,598,null,null,0);
     this.nl = new PIXI.Sprite.fromImage(baseUrl+'nl.png');
-    setDefaultValue(this.nl,102,131,22,297);
+    setDefaultValue(this.nl,105,135,22,297);
     this.zn = new PIXI.Sprite.fromImage(baseUrl+'zn.png');
-    setDefaultValue(this.zn,133,147,490,289);
+    setDefaultValue(this.zn,136,152,490,293);
     this.meet = new PIXI.Sprite.fromImage(baseUrl+'meet.png');
-    setDefaultValue(this.meet,160,160,222,195,null,null,0);
+    setDefaultValue(this.meet,164,167,222,215,null,null,0);
     this.jin = new PIXI.Sprite.fromImage(baseUrl+'jin.png');
     setDefaultValue(this.jin,100,73,120,66);
     this.jin.anchor.set(.3,.5);
@@ -86,6 +89,7 @@ GAME.sceneFinal.prototype.createSceneFinal = function (){
     this.background.addChild(this.nl);
     this.background.addChild(this.zn);
     this.background.addChild(this.meet);
+    this.background.addChild(this.logo);
     this.meet.addChild(this.jin);
     for(var i=0;i<6;i++){
         this.meet.addChild(this.hearts[i]);
@@ -115,13 +119,15 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
             this.count += 0.1;
             this.backPage.alpha += 0.02;
             this.phone.alpha += 0.02;
+            if(this.phone.alpha>1) this.phone.alpha = 1;
+            if(this.backPage.alpha>1) this.backPage.alpha = 1;
         }else{
             this.count2 += 0.1;
             this.love.scale.set(.9+.1*Math.sin(Math.PI/2+this.count2));
             this.love.alpha = .8+.2*Math.sin(Math.PI/2+this.count2);
             this.jin.rotation = Math.sin(this.count2/3)*Math.PI/50;
-            this.phone.alpha -= 0.2;
-            this.backPage.alpha -= 0.2;
+            this.phone.alpha -= 0.02;
+            this.backPage.alpha -= 0.02;
             this.background.alpha += 0.02;
             for(let i=0;i<6;i++){
                 if(this.hearts[i].position.y>-80){
@@ -144,19 +150,20 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
             if(this.notlove){
                 var lf = GAME.line.lineFinal;
                 this.nl.position.x = 22 + lf*2;
-                this.nl.position.y = 297 - lf*.75;
+                this.nl.position.y = 297 - lf*.65;
                 this.zn.position.x = 490 - lf*2;
-                this.zn.position.y = 289 - lf*.8;
+                this.zn.position.y = 289 - lf*.7;
             }
             if(GAME.line.lineFinal>0){
 
-                if(!this.isShow)GAME.line.lineFinal -= .2;
+                if(!this.isShow)GAME.line.lineFinal -= .5;
                 if(GAME.line.lineFinal>100){
                     this.isShow = true;
                     this.notlove = false;
                     this.nl.alpha -= 0.2;
                     this.zn.alpha -= 0.2;
-                    this.meet.alpha  += 0.5;
+                    this.meet.alpha  += 0.05;
+                    if(this.meet.alpha>1)this.meet.alpha = 1;
                     var lf = GAME.line.lineFinal;
                     console.log(this.girl.position.y);
                     if(this.girl.position.y < 543){
