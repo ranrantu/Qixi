@@ -15,6 +15,14 @@ GAME.sceneFinal.prototype.createSceneFinal = function (){
     setDefaultValue(this.background,640,GAME.height,0,0,null,null,0);
     this.logo = new PIXI.Sprite.fromImage('./src/img/sceneC/logo.png');
     setDefaultValue(this.logo,157,43,35,28);
+    this.tracer = new PIXI.Container();
+    setDefaultValue(this.tracer,41,331,310,150,null,null,0);
+    this.hand = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
+    setDefaultValue(this.hand,100,81,10,10);
+    this.tracer2 = new PIXI.Container();
+    setDefaultValue(this.tracer2,41,331,310,150,null,null,0);
+    this.hand2 = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
+    setDefaultValue(this.hand2,100,81,10,10);
 
     this.b1 = new PIXI.Sprite.fromImage(baseUrl+'b1.png');
     setDefaultValue(this.b1,170,240,0,839);
@@ -79,21 +87,25 @@ GAME.sceneFinal.prototype.createSceneFinal = function (){
     this.backPage.addChild(this.b7);
     this.backPage.addChild(this.znStarMap);
     this.backPage.addChild(this.zn_text);
+    this.backPage.addChild(this.tracer);
+    this.tracer.addChild(this.hand);
 
     this.background.addChild(this.girl);
     this.background.addChild(this.boy);
+    this.background.addChild(this.logo);
     this.background.addChild(this.love);
     this.background.addChild(this.ball);
     this.background.addChild(this.bridge);
-    this.background.addChild(this.happy);
+    this.background.addChild(this.meet);
     this.background.addChild(this.nl);
     this.background.addChild(this.zn);
-    this.background.addChild(this.meet);
-    this.background.addChild(this.logo);
+    this.background.addChild(this.happy);
     this.meet.addChild(this.jin);
     for(var i=0;i<6;i++){
         this.meet.addChild(this.hearts[i]);
     }
+    this.background.addChild(this.tracer2);
+    this.tracer2.addChild(this.hand2);
     // this.meet.addChild();
     // this.meet.addChild();
 
@@ -110,11 +122,60 @@ GAME.sceneFinal.prototype.createSceneFinal = function (){
     this.notlove = true;
     this.isShow = false;
     this.isHappy = false;
+    this.count3 = 0;
+    this.count4 = 0;
+    this.hahaha = false;
 }
 
 GAME.sceneFinal.prototype.moving = function (sceneC){
     if(processFinal){
         sceneC.background.alpha = 0;
+        if(processFA&&!processFB){
+            this.count3 += 0.01;
+            var speed = Math.PI/2 + this.count3 * 6;
+            var math = Math.sin(speed-Math.PI*2);
+            var math2 = Math.sin(speed-Math.PI/2);
+            var tracer1 = math>0?0:math;
+            var tracer = math2>0?0:math2;
+            var hander;
+            var p = (speed)%(Math.PI*2);
+            if(p<=Math.PI*2 && p>=Math.PI){
+                hander = tracer1;
+                this.hand.alpha = 1;
+            }else{
+                hander = 0;
+                this.hand.alpha = 0;
+            }
+            this.tracer.alpha = -tracer;
+            this.hand.position.y = -240*hander;
+        }else{
+            this.tracer.alpha = 0;
+        }
+        if(!processFA){
+            console.log(GAME.line.lineFinal);
+            if(GAME.line.lineFinal==0){
+                this.count4 += 0.01;
+                var speed = Math.PI/2 + this.count4 * 6;
+                var math = Math.sin(speed-Math.PI*2);
+                var math2 = Math.sin(speed-Math.PI/2);
+                var tracer1 = math>0?0:math;
+                var tracer = math2>0?0:math2;
+                var hander;
+                var p = (speed)%(Math.PI*2);
+                if(p<=Math.PI*2 && p>=Math.PI){
+                    hander = tracer1;
+                    this.hand2.alpha = 1;
+                }else{
+                    hander = 0;
+                    this.hand2.alpha = 0;
+                }
+                this.tracer2.alpha = -tracer;
+                this.hand2.position.y = -240*hander;
+            }
+        }else{
+            this.tracer2.alpha = 0;
+        }
+
         if(processFA){
             this.count += 0.1;
             this.backPage.alpha += 0.02;
@@ -133,15 +194,14 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
                 if(this.hearts[i].position.y>-80){
                     this.hearts[i].position.y -= 1.2;
                     this.hearts[i].position.x += this.hearts[i].dir*.5;
-                    this.hearts[i].alpha -= 0.02;
+                    this.hearts[i].alpha = 1;
                 }else{
+                    this.hearts[i].alpha = 0;
                     if(this.hearts[i].delay>0){
                         this.hearts[i].delay -= 0.03;
-                        this.hearts[i].alpha = 0;
                     }else{
                         this.hearts[i].position.x = 80;
                         this.hearts[i].position.y = 20;
-                        this.hearts[i].alpha = .8;
                         this.hearts[i].dir = -2+Math.random()*4;
                         this.hearts[i].delay = .2 + Math.random()*.4;
                     }
@@ -154,55 +214,24 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
                 this.zn.position.x = 490 - lf*2;
                 this.zn.position.y = 289 - lf*.7;
             }
-            if(GAME.line.lineFinal>0){
-
-                if(!this.isShow)GAME.line.lineFinal -= .5;
-                if(GAME.line.lineFinal>100){
-                    this.isShow = true;
-                    this.notlove = false;
-                    this.nl.alpha -= 0.2;
-                    this.zn.alpha -= 0.2;
-                    this.meet.alpha  += 0.05;
-                    if(this.meet.alpha>1)this.meet.alpha = 1;
-                    var lf = GAME.line.lineFinal;
-                    console.log(this.girl.position.y);
-                    if(this.girl.position.y < 543){
-                        this.girl.position.y += 3;
-                        this.girl.alpha += 0.05;
-                        this.boy.position.y += 3;
-                        this.boy.alpha += 0.05;
-                    }else{
-                        this.happy.alpha += 0.001;
-                    }
-                    // this.girl.position.y  = parseFloat(543);
-                    // this.girl.alpha = parseFloat(0.01);
-                    // console.log(this.girl.position.y,this.girl.alpha)
-                    // var a = new TWEEN.Tween(this.girl.position)
-                    //     .to({y:543},800)
-                    //     .yoyo(true).start();
-                    // var b = new TWEEN.Tween(this.girl)
-                    //     .to({alpha: 1 },800)
-                    //     .yoyo(true).start();
-                    // var c = new TWEEN.Tween(this.boy.position)
-                    //     .to( { y: 562 }, 800 )
-                    //     .easing( TWEEN.Easing.Circular.Out )
-                    //     .yoyo( true ).start();
-                    // var d = new TWEEN.Tween(this.boy)
-                    //     .to( { alpha: 1 }, 800 )
-                    //     .easing( TWEEN.Easing.Circular.Out )
-                    //     .onComplete(function (){
-                    //         var h = new TWEEN.Tween(this.happy)
-                    //             .to( { alpha: 1 }, 800 )
-                    //             .easing( TWEEN.Easing.Circular.Out )
-                    //             .yoyo( true ).start();
-                    //     })
-                    //     .yoyo( true ).start();
-                    // scroller.moveTo(this.girl.position,'y',195,543,4,function (e){
-                    //
-                    // });
-                    // scroller.moveTo(this.boy.position,'y',210,562,4,function (e){
-                    //
-                    // });
+            if(GAME.line.lineFinal>100){
+                this.hahaha = true;
+            }
+            if(this.hahaha){
+                this.isShow = true;
+                this.notlove = false;
+                this.nl.alpha -= 0.2;
+                this.zn.alpha -= 0.2;
+                this.meet.alpha  += 0.05;
+                if(this.meet.alpha>1)this.meet.alpha = 1;
+                var lf = GAME.line.lineFinal;
+                if(this.girl.position.y < 543){
+                    this.girl.position.y += 3;
+                    this.girl.alpha += 0.05;
+                    this.boy.position.y += 3;
+                    this.boy.alpha += 0.05;
+                }else{
+                    this.happy.alpha += 0.002;
                 }
             }
         }

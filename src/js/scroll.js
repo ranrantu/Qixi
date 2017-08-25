@@ -9,13 +9,6 @@ var processFinal = false;
 var processFA = true;
 var processFB = false;
 
-
-// var processA = false;
-// var processB = false;
-// var processC = true;
-// var processD = false;
-// var processFinal = false;
-
 var graphics = new PIXI.Graphics();
 var isPainting = false;
 var isDraging = false;
@@ -57,7 +50,6 @@ GAME.scroll = function (){
     var self = this;
 
     document.body.addEventListener('touchstart',function (event){
-        console.log(event.touches[0].pageX,event.touches[0].pageY);
         if(!gameStory) {
             self.iTop = self.nowTop;
             self.iLeft = self.nowLeft;
@@ -72,9 +64,18 @@ GAME.scroll = function (){
                 if(processFinal){
                     if(processFA){
                         processFA = false;
-                        processFB = true;
+                        self.iTop = self.nowTop = 0;
                     }else{
-                        GAME.line.lineFinal += 6;
+                        // GAME.line.lineFinal += 6;
+                        if(!processFB){
+                            processFB = true;
+                        }else{
+                            self.isTweening = false;
+                            cancelAnimationFrame(self.step);
+                            self.startTime = new Date().getTime();
+                            self.startLength = self.startDest = event.touches[0].pageY;
+                            self.startHorizontalLength = self.startHorizontalDest = event.touches[0].pageX;
+                        }
                     }
                 }else{
                     isPainting = true;
@@ -158,7 +159,18 @@ GAME.scroll = function (){
                 // event.preventDefault();
             } else {
                 if(processFinal){
+                    if(!processFA && processFB){
 
+                        self.moveLength = (event.changedTouches[0].pageY - self.startLength) * GAME.ratio/2;
+                        self.moveHorizontalLength = (event.changedTouches[0].pageX - self.startHorizontalLength) * GAME.ratio/2;
+                        if (self.iTop + self.moveLength >= 0) {
+                            self.nowTop = self.iTop = 0;
+                        }else{
+                            self.nowTop = self.iTop + (event.changedTouches[0].pageY - self.startLength) * GAME.ratio/2;
+                        }
+                        GAME.line.lineFinal =  - self.nowTop;
+                        console.log(GAME.line.lineFinal);
+                    }
                 }else{
                     if(isPainting){
                         graphics.beginFill(0xfc601d);
@@ -178,7 +190,6 @@ GAME.scroll = function (){
     },true);
 
     document.body.addEventListener('touchend',function (event){
-        console.log(event.changedTouches[0].pageX,event.changedTouches[0].pageY,self.startDest);
         if(!gameStory) {
             if (!processD) {
                 var now = new Date().getTime(),
@@ -251,7 +262,29 @@ GAME.scroll = function (){
                 }
             } else {
                 if(processFinal){
-
+                    // var now = new Date().getTime(),
+                    //     duration = now - self.startTime,
+                    //     deceleration = 0.0006,
+                    //     destination,
+                    //     offsetTop = self.nowTop,
+                    //     offsetLeft = self.nowLeft;
+                    // if(!processFA){
+                    //     if (duration < 300) {
+                    //         var distance = event.changedTouches[0].pageY - self.startDest,
+                    //             speed;
+                    //         if(Math.abs(distance) / duration){
+                    //             speed = Math.min(1, Math.abs(distance) / duration);
+                    //         }else{
+                    //             speed = 1;
+                    //         }
+                    //         if(distance!=0) {
+                    //             destination = offsetTop + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+                    //             self._scrollTo(destination, speed / deceleration, GAME.scroll.ease.circular.fn, 3);
+                    //         }
+                    //     } else {
+                    //         self.iTop = offsetTop;
+                    //     }
+                    // }
                 }else{
                     graphics.clear();
                     console.log('进入手机界面');
@@ -264,9 +297,7 @@ GAME.scroll = function (){
 }
 
 GAME.scroll.prototype.toFinalPage = function (startX,startY,endX,endY){
-    console.log(startX<endX,startY>endY)
     if(startX>endX && startY<endY){
-        console.log(111)
         processFinal = true;
         // processC = false;
     }else{
@@ -278,7 +309,7 @@ GAME.scroll.prototype._scrollTo = function (destination,duration,easingFn,type){
     var self = this,
         beginTime = new Date().getTime(),
         destTime = beginTime + duration,
-        beginLength = ((type==0)||(type==2))?self.nowTop:self.nowLeft;
+        beginLength = ((type==0)||(type==2)||(type==3))?self.nowTop:self.nowLeft;
 
     if(type==0){
         this.step = function (){
@@ -366,6 +397,35 @@ GAME.scroll.prototype._scrollTo = function (destination,duration,easingFn,type){
             GAME.line.lineC = self.iTop;
             self.isTweening&&requestAnimationFrame(self.step);
         }
+    }else if(type==3){
+        this.step = function (){
+            var now = new Date().getTime(),
+                easing;
+            if(now>=destTime){
+                self.isTweening = false;
+                return;
+            }
+
+            now = (now-beginTime)/duration;
+            easing = easingFn(now);
+
+            self.nowTop = self.iTop = (destination - beginLength)*easing + beginLength;
+            // if(self.nowTop < GAME.locationList[2].end){
+            //     self.nowTop = self.iTop = GAME.locationList[2].end;
+            //     GAME.line.lineFinal = self.iTop;
+            //     self.isTweening = false;
+            //     console.log('进入画图');
+            //     processD = true;
+            //     return;
+            if(self.nowTop > 0){
+                self.nowTop = self.iTop = 0;
+                GAME.line.lineFinal =  - self.iTop;
+                self.isTweening = false;
+                return;
+            }
+            GAME.line.lineFinal =  - self.iTop;
+            self.isTweening&&requestAnimationFrame(self.step);
+        }
     }
 
     this.isTweening = true;
@@ -379,7 +439,6 @@ GAME.scroll.prototype.moveTo = function (target,name,start,end,speed,callback){
     gameStory = true;
     cancelAnimationFrame(this.step);
     this.isTweening = true;
-    console.log(2223)
 
     this.superScroll(target,name,end,destination, speed / deceleration, GAME.scroll.ease.linear.fn,callback);
 }

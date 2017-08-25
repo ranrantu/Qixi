@@ -1,6 +1,36 @@
 var GAME = GAME || {};
+var audio;
 
 GAME.init = function (){
+    if (supportPreload()){
+        loadAudioSource('./src/music.mp3').then(function (){
+            audio = document.createElement('audio');
+            audio.src = './src/music.mp3';
+            audio.autoplay = 'autoplay';
+            audio.loop = true;
+            audio.style.display = 'none';
+            document.body.appendChild(audio);
+
+        });
+    }
+    document.getElementById('mask').style.display = 'none';
+
+
+
+    var audioStatus = true;
+    document.getElementById('music').addEventListener('touchstart',function (){
+
+        if(!audioStatus){
+            $('#music').removeClass('stop');
+            audioStatus = true;
+            audio.play();
+        }else{
+            audioStatus = false;
+            $('#music').addClass('stop');
+            audio.pause();
+        }
+    },true);
+
 
     renderer = PIXI.autoDetectRenderer(GAME.width, GAME.height, {
         view: document.querySelector('#pixi-canvas')
@@ -19,13 +49,13 @@ GAME.init = function (){
 
     let global = Global.stage;
     let zIndex = [
-        global.sceneA.background,
-        global.sceneB.background,
         global.sceneC.background,
-        graphics,
-        global.sceneFinal.backPage,
+        global.sceneB.background,
+        global.sceneA.background,
         global.sceneFinal.background,
+        global.sceneFinal.backPage,
         global.sceneFinal.phone,
+        graphics,
         // global.sceneA.planetTop,
     ];
     for(let i=0;i<zIndex.length;i++){
@@ -54,6 +84,7 @@ GAME.init = function (){
 
 GAME.loader = function (){
     Global.onScreenResize();
+    var progress = document.getElementById('isload');
 
     let loader = PIXI.loader;
     for(let key in GAME.config){
@@ -61,6 +92,10 @@ GAME.loader = function (){
             loader.add(key+'_'+i,GAME.config[key][i]);
         }
     }
+
+    loader.on('progress',(e)=>{
+        progress.innerHTML = Math.floor(e.progress);
+    });
     loader.once('complete',GAME.init);
     loader.load();
 }

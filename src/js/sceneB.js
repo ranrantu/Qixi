@@ -43,7 +43,7 @@ GAME.sceneB.prototype.createSceneB = function (){
     this.planetTop = new PIXI.Sprite.fromImage('./src/img/sceneB/planet_top.png');
     setDefaultValue(this.planetTop,497,161,577,-5,.8);
     this.planetBottom = new PIXI.Sprite.fromImage('./src/img/sceneB/planet_bottom.png');
-    setDefaultValue(this.planetBottom,465,209,1926,GAME.height-209);
+    setDefaultValue(this.planetBottom,465,209,1126,GAME.height-209);
 
     this.birdFrames = [
         PIXI.Texture.fromImage('./src/img/sceneB/b1.png'),

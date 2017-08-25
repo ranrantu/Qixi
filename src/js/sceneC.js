@@ -29,6 +29,10 @@ GAME.sceneC.prototype.createSceneC = function (){
     setDefaultValue(this.smalls,82,79,286,772);
     this.bigs = new PIXI.Sprite.fromImage(baseUrl+'bigs.jpg');
     setDefaultValue(this.bigs,398,388,127,958,null,null,0);
+    this.tracer = new PIXI.Container();
+    setDefaultValue(this.tracer,41,331,310,150,null,null,0);
+    this.hand = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
+    setDefaultValue(this.hand,100,81,10,10);
 
     this.sArray = [];
     for(var i=0;i<6;i++){
@@ -51,21 +55,41 @@ GAME.sceneC.prototype.createSceneC = function (){
     this.background.addChild(this.textD);
     this.background.addChild(this.smalls);
     this.background.addChild(this.bigs);
+    this.background.addChild(this.tracer);
+    this.tracer.addChild(this.hand);
     this.background.addChild(this.logo);
-    // for(var i=0;i<6;i++){
-    //     this.background.addChild(this.sArray[i])
-    // }
 
     var elements = {
         'background':this.background,
     };
     Global.setElementsToStage('sceneC',elements);
+    this.count = 0;
 }
 
 GAME.sceneC.prototype.moving = function (){
     var lc = GAME.line.lineC;
     var lb = GAME.line.lineB;
-
+    if(lb==-2837 && lc==0){
+        this.count += 0.01;
+        var speed = Math.PI/2 + this.count * 6;
+        var math = Math.sin(speed-Math.PI*2);
+        var math2 = Math.sin(speed-Math.PI/2);
+        var tracer1 = math>0?0:math;
+        var tracer = math2>0?0:math2;
+        var hander;
+        var p = (speed)%(Math.PI*2);
+        if(p<=Math.PI*2 && p>=Math.PI){
+            hander = tracer1;
+            this.hand.alpha = 1;
+        }else{
+            hander = 0;
+            this.hand.alpha = 0;
+        }
+        this.tracer.alpha = -tracer;
+        this.hand.position.y = -240*hander;
+    }else{
+        this.tracer.alpha = 0;
+    }
 
     if(lb<=-2197){
         this.background.x = -((-lb)-2197-640);
@@ -79,7 +103,7 @@ GAME.sceneC.prototype.moving = function (){
     if(lc<=-270 && lc>=-350){
         this.light.alpha = ((-lc)-270)*0.003;
         // this.smalls.alpha = 1-((-lc)-270)*0.003;
-        this.bigs.alpha = ((-lc)-270)*0.004;
+        this.bigs.alpha = ((-lc)-270)*0.008;
 
         var length = (-lc)-270;
 
@@ -103,6 +127,6 @@ GAME.sceneC.prototype.moving = function (){
         // }
         this.light.alpha = 0.24;
         // this.smalls.alpha = 0;
-        this.bigs.alpha = 0.32;
+        this.bigs.alpha = 0.64;
     }
 }

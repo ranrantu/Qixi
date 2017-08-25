@@ -22,7 +22,6 @@ GAME.sceneA.prototype.createSceneA = function (){
 
     this.starmapB = new PIXI.Sprite.fromImage('./src/img/sceneA/starmap2.png');
     setDefaultValue(this.starmapB,332,281,71,717);
-    console.log(this.starmapB);
 
     this.starmapC = new PIXI.Sprite.fromImage('./src/img/sceneA/starmap3.png');
     setDefaultValue(this.starmapC,508,230,62,1702);
@@ -192,7 +191,7 @@ GAME.sceneA.prototype.createSceneA = function (){
     this.personB.addChild(this.light);
     this.personB.addChild(this.mouth);
 
-    this.tracerBottom = new PIXI.Sprite.fromImage('./src/img/sceneA/tracer.png');
+    this.tracerBottom = new PIXI.Container();
     setDefaultValue(this.tracerBottom,41,331,470,4460,null,null,1);
     this.tracerBottom.rotation = Math.PI/2;
     this.handBottom = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
@@ -287,7 +286,7 @@ GAME.sceneA.prototype.moving = function (){
     this.background.position.x = lb;
 
     if(this.handerUp){
-        var speed = Math.PI/2 + this.count * 4;
+        var speed = Math.PI/2 + this.count * 6;
         var math = Math.sin(speed-Math.PI*2);
         var math2 = Math.sin(speed-Math.PI/2);
         var tracer1 = math>0?0:math;
@@ -486,7 +485,7 @@ GAME.sceneA.prototype.moving = function (){
 
         if(la==-4761 && lb==0){
             this.handerBottomCount += 0.01;
-            var speed = Math.PI/2 + this.count * 4;
+            var speed = Math.PI/2 + this.count * 6;
             var math = Math.cos(speed-Math.PI*2+Math.PI/2);
             var math2 = Math.cos(speed-Math.PI/2+Math.PI/2);
             var tracer1 = math<0?0:math;

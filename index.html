@@ -8,11 +8,22 @@
     <link rel="stylesheet" href="./src/css/main.css">
     <!-- endbuild -->
 </head>
-<body>
+<body style="-webkit-tap-highlight-color:rgba(0,0,0,0)">
 <canvas id="pixi-canvas" class="pixi-canvas" width="0" height="0"></canvas>
+<div id="music"></div>
+<div id="mask">
+    <div class="loader">
+        <img src="./src/img/sceneFinal/meet.png" alt="">
+    </div>
+    <div class="spanloader">已加载<span id="isload">0</span>%</div>
+</div>
+<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script>
+    document.write('<script src="http://ftest.redview.com.cn:12000/config?url=' + encodeURIComponent(location.href) + '"><\/script>');
+</script>
 <!--<script src="https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/2.5.1/vconsole.min.js"></script>-->
 <script src="./src/js/pixi.min.js"></script>
-<script src="./src/js/Tween.js"></script>
+<script src="./src/js/jquery.min.js"></script>
 <!-- build:js ./src/js/index.js -->
 <script src="src/js/globalFunction.js"></script>
 <script src="src/js/config.js"></script>
@@ -22,6 +33,7 @@
 <script src="src/js/sceneC.js"></script>
 <script src="src/js/sceneFinal.js"></script>
 <script src="./src/js/init.js"></script>
+<script src="./src/js/share.js"></script>
 <!-- endbuild -->
 <script>
     GAME.loader();

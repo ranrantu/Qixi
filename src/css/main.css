@@ -33,3 +33,184 @@ html,body {
     transform-origin:0 0;
     overflow: hidden;
 }
+
+#music {
+    background: url("../img/music_control.png") no-repeat 0 0;
+    width:60px;
+    height:60px;
+    top:40px;
+    right:20px;
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transform-origin:0 0;
+    -ms-transform-origin:0 0;
+    transform-origin:0 0;
+}
+#music.stop {
+    background: url("../img/music_control.png") no-repeat -60px 0;
+}
+
+#mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:#000;
+    color: rgba(255, 255, 255, 0.95);
+    z-index:10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader {
+    position: absolute;
+    top: calc(50% - 64px);
+    left: calc(50% - 32px);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    -webkit-perspective: 800px;
+    perspective: 800px;
+}
+.loader img {
+    width:100%;
+}
+
+.linner {
+    position: absolute;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.linner.one {
+    left: 0%;
+    top: 0%;
+    -webkit-animation: rotate-one 1s linear infinite;
+    animation: rotate-one 1s linear infinite;
+    border-bottom: 3px solid #EFEFFA;
+}
+
+.linner.two {
+    right: 0%;
+    top: 0%;
+    -webkit-animation: rotate-two 1s linear infinite;
+    animation: rotate-two 1s linear infinite;
+    border-right: 3px solid #EFEFFA;
+}
+
+.linner.three {
+    right: 0%;
+    bottom: 0%;
+    -webkit-animation: rotate-three 1s linear infinite;
+    animation: rotate-three 1s linear infinite;
+    border-top: 3px solid #EFEFFA;
+}
+@-webkit-keyframes rotate-one {
+    0% {
+        -webkit-transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+        -webkit-transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
+}
+@keyframes rotate-one {
+    0% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
+}
+@-webkit-keyframes rotate-two {
+    0% {
+        -webkit-transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+    }
+    100% {
+        -webkit-transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+    }
+}
+@keyframes rotate-two {
+    0% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+    }
+}
+@-webkit-keyframes rotate-three {
+    0% {
+        -webkit-transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+    100% {
+        -webkit-transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
+}
+@keyframes rotate-three {
+    0% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
+}
+.spanloader {
+    display: block;
+    -webkit-transform: translate3d(0,32px,0);
+    transform: translate3d(0,32px,0);
+    text-align: center;
+}
+
+
+@-webkit-keyframes scale-0 {
+    0% {-webkit-transform:scale(0.1);}
+    100% {-webkit-transform:scale(0.2);}
+}
+@keyframes scale-0 {
+    0% {transform:scale(0.1);}
+    100% {transform:scale(0.2);}
+}
+
+@-webkit-keyframes scale-1 {
+    0% {-webkit-transform:scale(0.2);}
+    100% {-webkit-transform:scale(0.3);}
+}
+@keyframes scale-1 {
+    0% {transform:scale(0.2);}
+    100% {transform:scale(0.3);}
+}
+
+@-webkit-keyframes scale-2 {
+    0% {-webkit-transform:scale(0.3);}
+    100% {-webkit-transform:scale(0.5);}
+}
+@keyframes scale-2 {
+    0% {transform:scale(0.3);}
+    100% {transform:scale(0.5);}
+}
+
+@-webkit-keyframes scale-3 {
+    0% {-webkit-transform:scale(0.5);}
+    100% {-webkit-transform:scale(1);}
+}
+@keyframes scale-3 {
+    0% {transform:scale(0.5);}
+    100% {transform:scale(1);}
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity:0}
+    100% {opacity:1}
+}
+@keyframes fadeIn {
+    0% {opacity:0}
+    100% {opacity:1}
+}
