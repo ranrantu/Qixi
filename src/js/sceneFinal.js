@@ -151,27 +151,25 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
         }else{
             this.tracer.alpha = 0;
         }
-        if(!processFA){
-            console.log(GAME.line.lineFinal);
-            if(GAME.line.lineFinal==0){
-                this.count4 += 0.01;
-                var speed = Math.PI/2 + this.count4 * 6;
-                var math = Math.sin(speed-Math.PI*2);
-                var math2 = Math.sin(speed-Math.PI/2);
-                var tracer1 = math>0?0:math;
-                var tracer = math2>0?0:math2;
-                var hander;
-                var p = (speed)%(Math.PI*2);
-                if(p<=Math.PI*2 && p>=Math.PI){
-                    hander = tracer1;
-                    this.hand2.alpha = 1;
-                }else{
-                    hander = 0;
-                    this.hand2.alpha = 0;
-                }
-                this.tracer2.alpha = -tracer;
-                this.hand2.position.y = -240*hander;
+
+        if(GAME.line.lineFinal==0){
+            this.count4 += 0.01;
+            var speed = Math.PI/2 + this.count4 * 6;
+            var math = Math.sin(speed-Math.PI*2);
+            var math2 = Math.sin(speed-Math.PI/2);
+            var tracer1 = math>0?0:math;
+            var tracer = math2>0?0:math2;
+            var hander;
+            var p = (speed)%(Math.PI*2);
+            if(p<=Math.PI*2 && p>=Math.PI){
+                hander = tracer1;
+                this.hand2.alpha = 1;
+            }else{
+                hander = 0;
+                this.hand2.alpha = 0;
             }
+            this.tracer2.alpha = -tracer;
+            this.hand2.position.y = -240*hander;
         }else{
             this.tracer2.alpha = 0;
         }
@@ -209,12 +207,12 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
             }
             if(this.notlove){
                 var lf = GAME.line.lineFinal;
-                this.nl.position.x = 22 + lf*2;
-                this.nl.position.y = 297 - lf*.65;
-                this.zn.position.x = 490 - lf*2;
-                this.zn.position.y = 289 - lf*.7;
+                this.nl.position.x = 22 + lf*2*.5;
+                this.nl.position.y = 297 - lf*.65*.5;
+                this.zn.position.x = 490 - lf*2*.5;
+                this.zn.position.y = 289 - lf*.7*.5;
             }
-            if(GAME.line.lineFinal>100){
+            if(GAME.line.lineFinal>200){
                 this.hahaha = true;
             }
             if(this.hahaha){

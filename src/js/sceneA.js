@@ -56,10 +56,10 @@ GAME.sceneA.prototype.createSceneA = function (){
     //星球碰撞部分
     this.cometEarthShaking = false;
     this.comet = new PIXI.Sprite.fromImage('./src/img/sceneA/comet.png');
-    setDefaultValue(this.comet,416,204,344,900,0.4,.5);
+    setDefaultValue(this.comet,416,204,344,900,0.6,.5);
 
     this.earth = new PIXI.Sprite.fromImage('./src/img/sceneA/earth.png');
-    setDefaultValue(this.earth,361,254,500,1400,null,.5);
+    setDefaultValue(this.earth,361,254,500,1400,1.5,.5);
 
     this.boomBlinking = false;
     this.boom = new PIXI.Sprite.fromImage('./src/img/sceneA/boom.png');
@@ -347,7 +347,7 @@ GAME.sceneA.prototype.moving = function (){
         if(la<=-500 && la>=-700){
             this.comet.position.y = 900 + ((-la - 500)*1.4);
             this.comet.position.x = 344 + (-la - 500)*0.2;
-            this.comet.scale.set(0.4+(-la - 500)*0.002);
+            this.comet.scale.set(0.6+(-la - 500)*0.003);
             this.earth.position.x = 500 - (-la - 500)*0.5;
             this.earth.position.y = 1400 - (-la - 500)*0.6;
             this.cometEarthShaking = false;
@@ -358,13 +358,13 @@ GAME.sceneA.prototype.moving = function (){
 
             this.comet.position.y = 900 + (200*1.4);
             this.comet.position.x = 344 + 200*0.2;
-            this.comet.scale.set(0.4+200*0.002);
+            this.comet.scale.set(0.6+200*0.003);
             this.earth.position.x = 500 - 200*0.5;
             this.earth.position.y = 1400 - 200*0.6;
         }else{
             this.comet.position.y = 900;
             this.comet.position.x = 344;
-            this.comet.scale.set(0.4);
+            this.comet.scale.set(0.6);
             this.earth.position.x = 500;
             this.earth.position.y = 1400;
         }
@@ -410,8 +410,8 @@ GAME.sceneA.prototype.moving = function (){
             this.actions.texture = this.actionFrames[0];
             this.paopao.alpha = (-la-2000)/250;
             this.textC_A.alpha = (-la-2000)/160;
-            this.textC_B.alpha = -1 + (-la-2000)/160;
-            this.textC_C.alpha = -2 + (-la-2000)/160;
+            this.textC_B.alpha = (-la-2000)/160;
+            this.textC_C.alpha = (-la-2000)/160;
         }
         this.phone.alpha = 0;
     }else if(la<=-3000){
@@ -485,7 +485,7 @@ GAME.sceneA.prototype.moving = function (){
 
         if(la==-4761 && lb==0){
             this.handerBottomCount += 0.01;
-            var speed = Math.PI/2 + this.count * 6;
+            var speed = Math.PI/2 + this.handerBottomCount * 6;
             var math = Math.cos(speed-Math.PI*2+Math.PI/2);
             var math2 = Math.cos(speed-Math.PI/2+Math.PI/2);
             var tracer1 = math<0?0:math;
@@ -494,10 +494,10 @@ GAME.sceneA.prototype.moving = function (){
             var p = (speed)%(Math.PI*2);
             if(p<=Math.PI*2 && p>=Math.PI){
                 hander = tracer1;
-                this.hand.alpha = 1;
+                this.handBottom.alpha = 1;
             }else{
                 hander = 0;
-                this.hand.alpha = 0;
+                this.handBottom.alpha = 0;
             }
             this.tracerBottom.alpha = -tracer;
             this.handBottom.position.y = 240*hander;

@@ -44,6 +44,11 @@ GAME.sceneB.prototype.createSceneB = function (){
     setDefaultValue(this.planetTop,497,161,577,-5,.8);
     this.planetBottom = new PIXI.Sprite.fromImage('./src/img/sceneB/planet_bottom.png');
     setDefaultValue(this.planetBottom,465,209,1126,GAME.height-209);
+    this.tracerBottom = new PIXI.Container();
+    setDefaultValue(this.tracerBottom,41,331,470,500,null,null,1);
+    this.tracerBottom.rotation = Math.PI/2;
+    this.handBottom = new PIXI.Sprite.fromImage('./src/img/sceneA/hand.png');
+    setDefaultValue(this.handBottom,100,81,10,10);
 
     this.birdFrames = [
         PIXI.Texture.fromImage('./src/img/sceneB/b1.png'),
@@ -104,6 +109,8 @@ GAME.sceneB.prototype.createSceneB = function (){
     // this.background.addChild(this.textA);
     this.background.addChild(this.znText);
     this.background.addChild(this.zn);
+    this.background.addChild(this.tracerBottom);
+    this.tracerBottom.addChild(this.handBottom);
     // this.background.addChild(this.textB);
 
     var elements = {
@@ -112,6 +119,8 @@ GAME.sceneB.prototype.createSceneB = function (){
     Global.setElementsToStage('sceneB',elements);
 
     this.count = 0;
+    this.handerBottomCount = 0;
+    this.timer = 100;
 }
 
 GAME.sceneB.prototype.initSceneBScroll = function (){
@@ -140,6 +149,8 @@ GAME.sceneB.prototype.moving = function (){
         this.length.alpha = 0;
         // this.textA.alpha = 0;
     }
+
+
 
     // console.log(lb);
 
@@ -221,16 +232,40 @@ GAME.sceneB.prototype.moving = function (){
             this.head.alpha = 0;
         }
     }
+    if(handleTouch){
+        this.tracerBottom.alpha = 0;
+        this.timer = 100;
+    }else{
+        this.timer -= 1;
+        if(this.timer<0){
+            this.timer = -1;
+            if(lb<-640 && lb>-2837){
+                this.handerBottomCount += 0.01;
+                var speed = Math.PI/2 + this.handerBottomCount * 6;
+                var math = Math.cos(speed-Math.PI*2+Math.PI/2);
+                var math2 = Math.cos(speed-Math.PI/2+Math.PI/2);
+                var tracer1 = math<0?0:math;
+                var tracer = math2>0?0:math2;
+                var hander;
+                var p = (speed)%(Math.PI*2);
+                if(p<=Math.PI*2 && p>=Math.PI){
+                    hander = tracer1;
+                    this.handBottom.alpha = 1;
+                }else{
+                    hander = 0;
+                    this.handBottom.alpha = 0;
+                }
+                this.tracerBottom.alpha = -tracer;
+                this.handBottom.position.y = 240*hander;
+                this.tracerBottom.position.x = 470 - this.background.position.x;
+            }else{
+                this.tracerBottom.alpha = 0;
+            }
+        }else{
+            this.timer -= 1;
+        }
 
-    // if(lb<=-1500 && lb>=-1600){
-    //     var length = (-lb)-1500;
-    //     this.zn.scale.set(0.5+length*0.004);
-    // }else if(lb<=-1600){
-    //     this.zn.scale.set(.9);
-    // }else{
-    //     this.zn.scale.set(.5);
-    // }
+    }
 
-    // console.log(lb);
 }
 

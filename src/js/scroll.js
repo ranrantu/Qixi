@@ -14,6 +14,8 @@ var isPainting = false;
 var isDraging = false;
 var gameStory = false;
 
+var handleTouch = false;
+
 GAME.scroll = function (){
 
     this.startLength = 0;
@@ -50,6 +52,7 @@ GAME.scroll = function (){
     var self = this;
 
     document.body.addEventListener('touchstart',function (event){
+        handleTouch = true;
         if(!gameStory) {
             self.iTop = self.nowTop;
             self.iLeft = self.nowLeft;
@@ -190,6 +193,7 @@ GAME.scroll = function (){
     },true);
 
     document.body.addEventListener('touchend',function (event){
+        handleTouch = false;
         if(!gameStory) {
             if (!processD) {
                 var now = new Date().getTime(),
