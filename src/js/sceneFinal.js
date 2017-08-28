@@ -3,7 +3,7 @@ GAME.sceneFinal = function (){
 }
 
 GAME.sceneFinal.prototype.createSceneFinal = function (){
-    const baseUrl = this.baseUrl;
+    var baseUrl = this.baseUrl;
 
     this.phone = new PIXI.Sprite.fromImage(baseUrl+'phone.png');
     setDefaultValue(this.phone,640,GAME.height,0,0,null,null,0);
@@ -188,7 +188,7 @@ GAME.sceneFinal.prototype.moving = function (sceneC){
             this.phone.alpha -= 0.02;
             this.backPage.alpha -= 0.02;
             this.background.alpha += 0.02;
-            for(let i=0;i<6;i++){
+            for(var i=0;i<6;i++){
                 if(this.hearts[i].position.y>-80){
                     this.hearts[i].position.y -= 1.2;
                     this.hearts[i].position.x += this.hearts[i].dir*.5;

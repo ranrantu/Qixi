@@ -5,7 +5,7 @@ GAME.sceneC = function (){
 }
 
 GAME.sceneC.prototype.createSceneC = function (){
-    const baseUrl = this.baseUrl;
+    var baseUrl = this.baseUrl;
 
     this.background = new PIXI.Sprite.fromImage(baseUrl+'bg.jpg');
     setDefaultValue(this.background,640,1478,0,0);

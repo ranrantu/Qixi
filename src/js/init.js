@@ -14,9 +14,6 @@ GAME.init = function (){
         });
     }
     document.getElementById('mask').style.display = 'none';
-
-
-
     var audioStatus = true;
     document.getElementById('music').addEventListener('touchstart',function (){
 
@@ -38,17 +35,17 @@ GAME.init = function (){
 
     stage = new PIXI.Container();
     scroller = new GAME.scroll();
-    let sceneA = new GAME.sceneA();
-    let sceneB = new GAME.sceneB();
-    let sceneC = new GAME.sceneC();
-    let sceneFinal = new GAME.sceneFinal();
+    var sceneA = new GAME.sceneA();
+    var sceneB = new GAME.sceneB();
+    var sceneC = new GAME.sceneC();
+    var sceneFinal = new GAME.sceneFinal();
     sceneA.createSceneA();
     sceneB.createSceneB();
     sceneC.createSceneC();
     sceneFinal.createSceneFinal();
 
-    let global = Global.stage;
-    let zIndex = [
+    var global = Global.stage;
+    var zIndex = [
         global.sceneC.background,
         global.sceneB.background,
         global.sceneA.background,
@@ -56,9 +53,8 @@ GAME.init = function (){
         global.sceneFinal.backPage,
         global.sceneFinal.phone,
         graphics,
-        // global.sceneA.planetTop,
     ];
-    for(let i=0;i<zIndex.length;i++){
+    for(var i=0;i<zIndex.length;i++){
         stage.addChild(zIndex[i]);
     }
 
@@ -78,7 +74,6 @@ GAME.init = function (){
 
         t = now;
         requestAnimationFrame(animate);
-        // TWEEN.update();
     }
 }
 
@@ -86,14 +81,14 @@ GAME.loader = function (){
     Global.onScreenResize();
     var progress = document.getElementById('isload');
 
-    let loader = PIXI.loader;
-    for(let key in GAME.config){
-        for(let i=0;i<GAME.config[key].length;i++){
+    var loader = PIXI.loader;
+    for(var key in GAME.config){
+        for(var i=0;i<GAME.config[key].length;i++){
             loader.add(key+'_'+i,GAME.config[key][i]);
         }
     }
 
-    loader.on('progress',(e)=>{
+    loader.on('progress',function (e){
         progress.innerHTML = Math.floor(e.progress);
     });
     loader.once('complete',GAME.init);
