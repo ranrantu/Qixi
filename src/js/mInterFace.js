@@ -3,8 +3,9 @@ var qy = qy || {};
 qy.shareInfo = {
     title: '当七夕遇上星际动乱',
     desc: '问：若银河系大乱，牛郎织女七夕如何相聚？',
-    previewImageUrl:'http://sg.mengine.map.sogou.com/map_sogou/shouji4/activity/out/maze/assets/share.jpg',
-    url: 'http://sg.mengine.map.sogou.com/map_sogou/shouji4/activity/out/maze/index.share.html',
+    previewImageUrl:'http://img04.sogoucdn.com/app/a/100140005/qixi.jpg',
+    imgUrl:'http://img04.sogoucdn.com/app/a/100140005/qixi.jpg',
+    url: 'http://map.sogou.com/m/shouji4/page/20170825/index.html',
     actionName: 'callShareBack'
 }
 
@@ -13,192 +14,177 @@ function setPoiData(p){
     qy.iface.send("setPoiData",b);
 }
 
-function Interface(){
-
-    var t=this,bridge,mu="https://s.map.sogou.com/#",waitOpen=false;
-    var _webInfo=function(){
+function Interface() {
+    var m = this,
+        c, n = "http://map.sogou.com/#",
+        d = false;
+    var h = function() {
         return {
-            "title"					: "",
-            "url"   				: "",
-            "type"  				: "0",
-            "toolBar" 				: "0",
-            "backButtonStyle"			: "0"
+            title: "",
+            url: "",
+            type: "0",
+            toolBar: "0",
+            backButtonStyle: "0"
         }
-    }
-    var _appInfo=function(){
+    };
+    var i = function() {
         return {
-            "name"					: "",	//Ó¦ÓÃ³ÌÐòÃû³Æ
-            "size"   				: "",	//Ó¦ÓÃ³ÌÐò°ü´óÐ¡
-            "url"  					: "",	//Ó¦ÓÃ³ÌÐòÏÂÔØµØÖ·
-            "versionCode" 				: "",	//Ó¦ÓÃ³ÌÐò°æ±¾ºÅ
-            "versionName"				: "",	//Ó¦ÓÃ³ÌÐò°æ±¾Ãû³Æ
-            "updateTime"				: "",	//Ó¦ÓÃ³ÌÐò¸üÐÂÊ±¼ä
-            "changeLog"				: ""	//¸üÐÂÐÅÏ¢
+            name: "",
+            size: "",
+            url: "",
+            versionCode: "",
+            versionName: "",
+            updateTime: "",
+            changeLog: ""
         }
-    }
-    var _shareInfo=function(){
+    };
+    var g = function() {
         return {
-            "url"					: "",	//·ÖÏíµÄurl
-            "desc"   				: "",	//¶ÌÁ´·ÖÏíÃèÊöÐÅÏ¢
-            "imgUrl"  				: "",	//¶ÌÁ´Í¼Æ¬»ñÈ¡url
-            "previewImageUrl"  			: ""	//·ÖÏíalertµÄÔ¤ÀÀÌáÊ¾Í¼Æ¬
+            url: "",
+            desc: "",
+            imgUrl: "",
+            previewImageUrl: ""
         }
-    }
-    var _poiInfo=function(){
+    };
+    var b = function() {
         return {
-            "name" 					: "",	//Ãû³Æ
-            "address" 				: "",	//µØÖ·
-            "phone" 				: "",	//µç»°
-            "dataid" 				: "",	//dataid
-            "cpid" 					: "",	//cpid
-            "uid" 					: "",	//uid
-            "type" 					: "",	//0£ºÆäËûÀà 1£º²ÍÒûÀà 2£º¾ÆµêÀà
-            "coordx" 				: "",	//Ä«¿¨ÍÐ×ø±êx
-            "coordy" 				: ""	//Ä«¿¨ÍÐ×ø±êy
+            name: "",
+            address: "",
+            phone: "",
+            dataid: "",
+            cpid: "",
+            uid: "",
+            type: "",
+            coordx: "",
+            coordy: ""
         }
+    };
+    var a = {};
+    var e;
+    document.addEventListener("WebViewJavascriptBridgeReady", l, false);
+    function l(o) {
+        c = o.bridge;
+        c.init();
+        c.registerHandler("iosCalJavascript",
+            function(p) {
+                e(p)
+            })
     }
-    var times={};								//ÑÓÊ±µÄµÈ´ý¶ÔÏó
-    var cbFunction;								//¿Í»§¶Ë»Øµ÷º¯Êý
-
-
-    //iosÏµÍ³
-    document.addEventListener('WebViewJavascriptBridgeReady', onBridgeReady, false);
-    function onBridgeReady(event) {
-        bridge = event.bridge
-        bridge.init();
-        //»Øµ÷¼àÌý
-        bridge.registerHandler('iosCalJavascript', function(data) {
-            cbFunction(data);
-        })
-    }
-
-    //androidÏµÍ³»Øµ÷
-    window.androidCalWebView = function(data){
-        alert(1);
-        cbFunction(unescape(unescape(data)));
-    }
-
-    //·¢ËÍ
-    //a	ÀàÐÍ
-    //b	²ÎÊý
-    //c	·µ»Ø
-    this.send=function(a,b){
-        //ÕûÀí²ÎÊý
-        var p=crParam(a,b);
-        if(waitOpen){return;}
-        //¹Ø±Õ¿ÉÄÜµÄµÈ´ý£¬µ±Ç°ÏàÍ¬µÄ
-        clearTimeout(times[a]);
-        //·¢ËÍ
-        if(bridge){
-            bridge.send(p);
-        }else if(window.android&&window.android.webViewCalAndroid){
-            p=obj2str(p);
-            window.android.webViewCalAndroid(p);
-        }else{
-            //if(!moblog){
-            //var moblog="";
-            if(a=="openWeb"||a=="openWithBrowser"||a=="showActivity"){
-                window.location.href=b.webInfo.url;
-            }
-            if(a=="showOnMap"){
-                if(b.poiInfo.uid){
-                    window.location.href=mu+"uids="+b.poiInfo.uid;
-                }else if(b.poiInfo.dataid){
-                    window.location.href=mu+"dataid="+b.poiInfo.dataid;
-                }else{
-                    window.location.href=mu+"tip="+escape(b.poiInfo.name)+","+b.poiInfo.coordx+","+b.poiInfo.coordy;
+    window.androidCalWebView = function(o) {
+        e(unescape(unescape(o)))
+    };
+    this.send = function(q, o) {
+        var r = j(q, o);
+        if (d) {
+            return
+        }
+        clearTimeout(a[q]);
+        if (c) {
+            c.send(r)
+        } else {
+            if (window.android && window.android.webViewCalAndroid) {
+                r = k(r);
+                window.android.webViewCalAndroid(r)
+            } else {
+                if (q == "openWeb" || q == "openWithBrowser" || q == "showActivity") {
+                    window.location.href = o.webInfo.url
+                }
+                if (q == "showOnMap") {
+                    if (o.poiInfo.uid) {
+                        window.location.href = n + "uids=" + o.poiInfo.uid
+                    } else {
+                        if (o.poiInfo.dataid) {
+                            window.location.href = n + "dataid=" + o.poiInfo.dataid
+                        } else {
+                            window.location.href = n + "tip=" + escape(o.poiInfo.name) + "," + o.poiInfo.coordx + "," + o.poiInfo.coordy
+                        }
+                    }
+                }
+                if (q == "showSubject") {
+                    window.location.href = o.webInfo.url
+                }
+                if (q == "setPoiData" || q == "setNavigationBarTitle" || q == "mapOrigin" || q == "toolBarOrigin") {
+                    f(q, o)
                 }
             }
-            if(a=="showSubject"){
-                window.location.href=b.webInfo.url;
-            }
-            //}
-            //µÈ´ýÆ»¹ûÇé¿öÏÂµÄÑÓÊ±
-            if(a=="setPoiData"||a=="setNavigationBarTitle"||a=="mapOrigin"||a=="toolBarOrigin"){
-                wait(a,b);
-            }
         }
-        //Èç¹ûÊÇÖ¸¶¨Ìá½»£¬µÈ´ýÒ»Ãë¡£
-        if(a=="openWeb"||a=="showOnMap"){
-            waitOpen=true;
-            setTimeout(function(){
-                waitOpen=false;
-            },1000)
+        if (q == "openWeb" || q == "showOnMap") {
+            d = true;
+            setTimeout(function() {
+                    d = false
+                },
+                1000)
         }
-    }
-
-    //Èç¹ûÊÇ·µ»Ø¹²ÏíÐÅÏ¢£¬ÄÇÃ´£¬µÈ´ýÖ¸¶¨´ÎÊý´Î
-    function wait(a,b,n){
-        //¹Ø±ÕµÈ´ý
-        clearTimeout(times[a]);
-        //
-        if(!n){n=12}
-        //ÓÐÁË¾ÍÌá½»
-        if(bridge){
-            t.send(a,b);return;
+    };
+    function f(p, o, q) {
+        clearTimeout(a[p]);
+        if (!q) {
+            q = 12
         }
-        //µ½´ÎÊý¾ÍÍ£Ö¹
-        if(n==1){return;}
-        //·ñÔòÑ­»·
-        times[a] = setTimeout(function(){
-            wait(a,b,n-1);
-        },200)
+        if (c) {
+            m.send(p, o);
+            return
+        }
+        if (q == 1) {
+            return
+        }
+        a[p] = setTimeout(function() {
+                f(p, o, q - 1)
+            },
+            200)
     }
-
-    //ÕûÀí²ÎÊý
-    function crParam(a,b){
-        b["WTON_ACTION"]=a;
-        return b;
+    function j(p, o) {
+        o.WTON_ACTION = p;
+        return o
     }
-
-    //·µ»Øwebinfo
-    this.getNewWebInfo=function(){
-        return _webInfo();
-    }
-    //·µ»Øappinfo
-    this.getNewAppInfo=function(){
-        return _appInfo();
-    }
-    //·µ»Øshareinfo
-    this.getNewShareInfo=function(){
-        return _shareInfo();
-    }
-    //·µ»Øpoiinfo
-    this.getNewPoiInfo=function(){
-        return _poiInfo();
-    }
-
-    //ÉèÖÃ¿Í»§¶ËµÄ»Øµ÷
-    this.setCallBack=function(a){
-        cbFunction = a;
-    }
-
-    //²ÎÊý±àÂë
-    function obj2str(o){
-        var r=[],b;
-        if(typeof o=="string") return "\""+escape(o.replace(/([\'\"\\])/g,"\\$1").replace(/(\n)/g,"\\n").replace(/(\r)/g,"\\r").replace(/(\t)/g,"\\t"))+"\"";
-        if(typeof o=="undefined") return "";
-        if(typeof o=="object")
-        {
-            if(o===null) return "null";
-            else if(!o.sort||!o.length)
-            {
-                for(var i in o){
-                    b=/[^\w]/.test(i);if(i!="getClassName"&&i!="setTimeout"&&i!="eventHandler")r.push("\""+i+"\""+":"+obj2str(o[i]))
+    this.getNewWebInfo = function() {
+        return h()
+    };
+    this.getNewAppInfo = function() {
+        return i()
+    };
+    this.getNewShareInfo = function() {
+        return g()
+    };
+    this.getNewPoiInfo = function() {
+        return b()
+    };
+    this.setCallBack = function(o) {
+        e = o
+    };
+    function k(t) {
+        var s = [],
+            p;
+        if (typeof t == "string") {
+            return '"' + escape(t.replace(/([\'\"\\])/g, "\\$1").replace(/(\n)/g, "\\n").replace(/(\r)/g, "\\r").replace(/(\t)/g, "\\t")) + '"'
+        }
+        if (typeof t == "undefined") {
+            return ""
+        }
+        if (typeof t == "object") {
+            if (t === null) {
+                return "null"
+            } else {
+                if (!t.sort || !t.length) {
+                    for (var q in t) {
+                        p = /[^\w]/.test(q);
+                        if (q != "getClassName" && q != "setTimeout" && q != "eventHandler") {
+                            s.push('"' + q + '":' + k(t[q]))
+                        }
+                    }
+                    s = "{" + s.join() + "}"
+                } else {
+                    for (var q = 0; q < t.length; q++) {
+                        s.push(k(t[q]))
+                    }
+                    s = "[" + s.join() + "]"
                 }
-                r="{"+r.join()+"}"
             }
-            else
-            {
-                for(var i =0;i<o.length;i++)r.push(obj2str(o[i]));
-                r="["+r.join()+"]"
-            }
-            return r;
+            return s
         }
-        return o.toString();
+        return t.toString()
     }
-
-}
+};
 
 qy.iface = new Interface();
 setPoiData(qy.shareInfo);

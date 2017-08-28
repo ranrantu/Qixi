@@ -17,25 +17,74 @@
     </div>
     <div class="spanloader">已加载<span id="isload">0</span>%</div>
 </div>
-<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
-<script>
-    document.write('<script src="http://ftest.redview.com.cn:12000/config?url=' + encodeURIComponent(location.href) + '"><\/script>');
-</script>
 <script src="./src/js/pixi.min.js"></script>
 <script src="./src/js/jquery.min.js"></script>
 <!-- build:js ./src/js/index.js -->
-<script src="src/js/globalFunction.js"></script>
-<script src="src/js/config.js"></script>
-<script src="src/js/scroll.js"></script>
-<script src="src/js/sceneA.js"></script>
-<script src="src/js/sceneB.js"></script>
-<script src="src/js/sceneC.js"></script>
-<script src="src/js/sceneFinal.js"></script>
+<script src="./src/js/globalFunction.js"></script>
+<script src="./src/js/config.js"></script>
+<script src="./src/js/scroll.js"></script>
+<script src="./src/js/sceneA.js"></script>
+<script src="./src/js/sceneB.js"></script>
+<script src="./src/js/sceneC.js"></script>
+<script src="./src/js/sceneFinal.js"></script>
 <script src="./src/js/init.js"></script>
 <!-- endbuild -->
-<script src="./src/js/share.js"></script>
+<script src="./src/js/go2common.js"></script>
 <script src="./src/js/log.js"></script>
 <script src="./src/js/mInterFace.js"></script>
+<script src="./src/js/go2wx.js"></script>
+<script>
+    //分享
+    function initSharePage(){
+        //分享
+        var iwx = new actFn();
+        iwx.shareObj={
+            "desc" : "问：若银河系大乱，牛郎织女七夕如何相聚？",
+            "title" : "当七夕遇上星际动乱",
+            "linkimg" : "http://img04.sogoucdn.com/app/a/100140005/qixi.jpg",
+            "linkurl" : "http://map.sogou.com/m/shouji4/page/20170825/index.html"
+        };
+        iwx.initShareWX();
+        iwx.ready(function (){
+            audio.play();
+            audio.loop = true;
+        })
+    }
+
+    var moblog=getParameter("moblog");
+    var userblog=getParameter("userblog");
+
+    window.onload = function (){
+        initSharePage();
+    }
+    //固定的日志信息
+    function logStant(){
+        var m,c;
+        var mobileType=getMobileType();
+        m=initMoblog(moblog);
+        c ="uigs_productid=sogoumaps&app=shouji4" //固定字段
+        c+="&page=activity.wallet.index"     //活动号
+        c+="&deviceid="+getParameter("deviceid") //系统版本(自取)
+        c+="&deviceSystem="+mobileType      //系统版本(自取)
+        c+=(m.u?"&mob_u="+m.u:"")         //用户唯一标识
+        c+=(m.pd?"&mob_pd="+m.pd:"")       //产品id
+        c+=(m.d?"&mob_d="+m.d:"")         //设备唯一标识(ios)
+        c+=(m.kd?"&mob_kd="+m.kd:"")       //设备唯一标识(android)
+        c+=(m.os?"&mob_os="+m.os:"")       //系统版本
+        c+=(m.mf?"&mob_mf="+m.mf:"")       //手机厂商
+        c+=(m.v?"&mob_v="+m.v:"")         //客户端程序版本号
+        c+=(m.md?"&mob_md="+m.md:"")       //设备型号
+        return c;
+    }
+    //加日志
+    $(document).ready(function(){
+        CLog.constant=logStant();
+        CLog.send("event=pageload");
+        window.sendlog=function(a){
+            CLog.send("event="+a);
+        };
+    });
+</script>
 <script>
     GAME.loader();
 </script>

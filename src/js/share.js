@@ -1,8 +1,8 @@
 wx.ready(function () {
     wx.onMenuShareTimeline({
-        title: '七夕情人节', // 分享标题
-        link: 'http://ftest.redview.com.cn/qixi/index.html', // 分享链接
-        imgUrl: 'http://ftest.redview.com.cn/qixi/src/img/share.jpg',
+        title: '当七夕遇上星际动乱', // 分享标题
+        link: 'http://map.sogou.com/m/shouji4/page/20170825/index.html', // 分享链接
+        imgUrl: 'http://img04.sogoucdn.com/app/a/100140005/qixi.jpg',
         success: function () {
             // 用户确认分享后执行的回调函数
         },
@@ -12,10 +12,10 @@ wx.ready(function () {
     });
 
     wx.onMenuShareAppMessage({
-        title: '七夕情人节', // 分享标题
-        desc: '七夕情人节', // 分享描述
-        link: 'http://ftest.redview.com.cn/qixi/index.html', // 分享链接
-        imgUrl: 'http://ftest.redview.com.cn/qixi/src/img/share.jpg',
+        title: '当七夕遇上星际动乱', // 分享标题
+        desc: '问：若银河系大乱，牛郎织女七夕如何相聚？', // 分享描述
+        link: 'http://map.sogou.com/m/shouji4/page/20170825/index.html', // 分享链接
+        imgUrl: 'http://img04.sogoucdn.com/app/a/100140005/qixi.jpg',
         type: 'link', // 分享类型,music、video或link，不填默认为link
         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空,
         success: function () {
@@ -25,6 +25,10 @@ wx.ready(function () {
             // 用户取消分享后执行的回调函数
         }
     });
+
+    wx.error(function (e){
+        alert(e)
+    })
 
     audio.play();
     audio.loop = true;

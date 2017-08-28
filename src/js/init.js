@@ -3,28 +3,27 @@ var audio;
 
 GAME.init = function (){
     if (supportPreload()){
-        loadAudioSource('./src/music.mp3').then(function (){
-            audio = document.createElement('audio');
-            audio.src = './src/music.mp3';
-            audio.autoplay = 'autoplay';
-            audio.loop = true;
-            audio.style.display = 'none';
-            document.body.appendChild(audio);
-
+        loadAudioSource('./src/music.mp3').then(function (value){
+            if(!value){
+                audio = document.createElement('audio');
+                audio.src = './src/music.mp3';
+                audio.autoplay = 'autoplay';
+                audio.loop = true;
+                audio.style.display = 'none';
+                document.body.appendChild(audio);
+            }
         });
     }
     document.getElementById('mask').style.display = 'none';
-    var audioStatus = true;
+    // var audioStatus = true;
     document.getElementById('music').addEventListener('touchstart',function (){
 
-        if(!audioStatus){
+        if(audio.paused){
             $('#music').removeClass('stop');
-            audioStatus = true;
-            audio.play();
+            audio && audio.play();
         }else{
-            audioStatus = false;
             $('#music').addClass('stop');
-            audio.pause();
+            audio && audio.pause();
         }
     },true);
 

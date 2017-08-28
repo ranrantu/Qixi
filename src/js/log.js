@@ -5,7 +5,7 @@
         return Number(new Date()) + c(10 * d()) + c(10 * d()) + c(10 * d())
     };
     function CLog() {};
-    CLog.site = "https://pb.sogou.com/cl.gif";
+    CLog.site = "http://pb.sogou.com/cl.gif";
     CLog.write = function(i, d) {
         var m = CLog.debug;
         if (!m) {
@@ -89,5 +89,3 @@
     window["CLog"]=CLog;
 //Ìí¼ÓÈÕÖ¾¼àÌý
 })()
-
-
