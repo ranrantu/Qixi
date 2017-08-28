@@ -73,6 +73,9 @@ function loadAudioSource(src) {
                 // document.addEventListener('touchstart', function (e) {
 
                 // });
+                audio.autoplay = 'autoplay';
+                audio.loop = true;
+                audio.style.display = 'none';
                 resolve(true);
             }
         };

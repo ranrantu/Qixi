@@ -17,6 +17,7 @@
     </div>
     <div class="spanloader">已加载<span id="isload">0</span>%</div>
 </div>
+<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
 <script src="./src/js/pixi.min.js"></script>
 <script src="./src/js/jquery.min.js"></script>
 <!-- build:js ./src/js/index.js -->
@@ -45,10 +46,6 @@
             "linkurl" : "http://map.sogou.com/m/shouji4/page/20170825/index.html"
         };
         iwx.initShareWX();
-        iwx.ready(function (){
-            audio.play();
-            audio.loop = true;
-        })
     }
 
     var moblog=getParameter("moblog");
@@ -84,6 +81,11 @@
             CLog.send("event="+a);
         };
     });
+
+    wx.ready(function (){
+        audio.play();
+        audio.loop = true;
+    })
 </script>
 <script>
     GAME.loader();
